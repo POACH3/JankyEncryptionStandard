@@ -1,12 +1,12 @@
 ﻿/// <summary>
 /// 
-/// Author:     Trenton Stratton
-/// Date:       23-MAR-2024
+/// Author:       Trenton Stratton
+/// Date started: 23-MAR-2024
+/// Last updated: 24-MAR-2024
 ///
-/// File Contents
-///     
-///     Ceasar Cipher encryption
-///     Ceasar Cipher decryption
+/// File Contents:
+///     encryption
+///     decryption
 ///     
 /// Notes:
 ///     I am not sure I am happy about the valid characters. I 
@@ -27,7 +27,7 @@ namespace Encrypt
     public class CeasarCipher
     {
         /// <summary>
-        ///     Encrypts using an offset from 1-90.
+        ///     Encrypts using a chosen offset value from 1-90.
         /// </summary>
         /// <param name="offset"></param>
         /// <param name="data"></param>
