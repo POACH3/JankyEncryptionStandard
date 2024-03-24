@@ -11,42 +11,50 @@
 using Encrypt;
 
 string userCont = "";
-bool run = true;
+bool continueRun = true;
 
-Console.WriteLine("CEASAR CIPHER");
+//Console.WriteLine("CEASAR CIPHER");
+Console.WriteLine("RSA");
 CeasarCipher ceasar = new CeasarCipher();
+RSA rsa = new RSA();
 
-while (run)
+while (continueRun)
 {
-    Console.WriteLine("\nEnter an encryption value (1-90): ");
-    int offset = int.Parse(Console.ReadLine());
+    // === RSA STUFF ===
 
-    Console.WriteLine("Enter a message to encrypt: ");
-    string message = Console.ReadLine();
+    
+    
+    // === CEASAR CIPHER STUFF ===
 
-    string encryptedMessage = ceasar.Encrypt(offset, message);
+    //Console.WriteLine("\nEnter an encryption value (1-90): ");
+    //int offset = int.Parse(Console.ReadLine());
 
-    Console.WriteLine("\nEncrypted: " + encryptedMessage);
-    Console.WriteLine("Decrypted: " + ceasar.Decrypt(offset, encryptedMessage));
+    //Console.WriteLine("Enter a message to encrypt: ");
+    //string message = Console.ReadLine();
+
+    //string encryptedMessage = ceasar.Encrypt(offset, message);
+
+    //Console.WriteLine("\nEncrypted: " + encryptedMessage);
+    //Console.WriteLine("Decrypted: " + ceasar.Decrypt(offset, encryptedMessage));
 
 
-    while (userCont != "Y" || userCont != "N" || userCont != "y" || userCont != "n")
-    {
-        Console.WriteLine("\nEncrypt another message? (Y/N)");
-        userCont = Console.ReadLine();
-        if (userCont == "Y" || userCont == "y")
-        {
-            break;
-        }
-        else if (userCont == "N" || userCont == "n")
-        {
-            run = false;
-            break;
-        }
-        else
-        {
-            Console.WriteLine("Invalid command.");
-        }
-    }
+    //while (userCont != "Y" || userCont != "N" || userCont != "y" || userCont != "n")
+    //{
+    //    Console.WriteLine("\nEncrypt another message? (Y/N)");
+    //    userCont = Console.ReadLine();
+    //    if (userCont == "Y" || userCont == "y")
+    //    {
+    //        break;
+    //    }
+    //    else if (userCont == "N" || userCont == "n")
+    //    {
+    //        run = false;
+    //        break;
+    //    }
+    //    else
+    //    {
+    //        Console.WriteLine("Invalid command.");
+    //    }
+    //}
 
 } // end of program while loop
