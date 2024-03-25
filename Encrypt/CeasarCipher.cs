@@ -9,8 +9,10 @@
 ///     decryption
 ///     
 /// Notes:
-///     I am not sure I am happy about the valid characters. I 
+///     I am not sure I am happy about the valid characters, so I 
 ///     may want to change that to include all ASCII.
+///     Maybe prevent user from choosing an offset that
+///     doesn't actually encrypt?
 /// 
 /// </summary>
 
@@ -30,27 +32,26 @@ namespace Encrypt
         ///     Encrypts using a chosen offset value from 1-90.
         /// </summary>
         /// <param name="offset"></param>
-        /// <param name="data"></param>
+        /// <param name="plainText"></param>
         /// <returns></returns>
-        public string Encrypt(int offset, string data)
+        public string Encrypt(int offset, string plainText)
         {
-            offset = offset % 91;
+            offset %= 91;
+            
             StringBuilder sb = new StringBuilder();
-            int charNum;
+            int charNum; // ASCII number of a character
 
-            for (int i = 0; i < data.Length; i++)
+            for (int i = 0; i < plainText.Length; i++)
             {
-                charNum = (int)data[i];
+                charNum = (int)plainText[i];
 
                 if (charNum < 32 || charNum > 122)
-                {
-                    //TODO: invalid character
-                }
+                    throw new ArgumentException("Message contains a character that is not allowed for encryption.");
 
-                charNum = charNum + offset; // ceasar slide
+                charNum += offset; // ceasar slide
 
-                if (charNum < 32) { charNum = charNum + 91; }
-                if (charNum > 122) { charNum = charNum - 91; }
+                if (charNum < 32) { charNum += 91; }
+                if (charNum > 122) { charNum -= 91; }
 
                 sb.Append((char)charNum);
             }
@@ -63,32 +64,32 @@ namespace Encrypt
         ///     same number as what was used to encrypt).
         /// </summary>
         /// <param name="offset"></param>
-        /// <param name="data"></param>
+        /// <param name="cipherText"></param>
         /// <returns></returns>
-        public string Decrypt(int offset, string data)
+        public string Decrypt(int offset, string cipherText)
         {
-            offset = offset % 91;
-            StringBuilder sb = new StringBuilder();
-            int charNum;
+            offset %= 91;
 
-            for (int i = 0; i < data.Length; i++)
+            StringBuilder sb = new StringBuilder();
+            int charNum; // ASCII number of a character
+
+            for (int i = 0; i < cipherText.Length; i++)
             {
-                charNum = (int)data[i];
+                charNum = (int)cipherText[i];
 
                 if (charNum < 32 || charNum > 122)
-                {
-                    //TODO: invalid character
-                }
+                    throw new ArgumentException("Encrypted message contains a character that is not allowed for decryption.");
 
-                charNum = charNum - offset; // ceasar slide
+                charNum -= offset; // ceasar slide
 
-                if (charNum < 32) { charNum = charNum + 91; }
-                if (charNum > 122) { charNum = charNum - 91; }
+                if (charNum < 32) { charNum += 91; }
+                if (charNum > 122) { charNum -= 91; }
 
                 sb.Append((char)charNum);
             }
 
             return sb.ToString();
         }
+
     }
 }
