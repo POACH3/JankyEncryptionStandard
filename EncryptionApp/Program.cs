@@ -21,43 +21,61 @@ bool continueRun = true;
 //Console.WriteLine("CEASAR CIPHER");
 //CeasarCipher ceasar = new CeasarCipher();
 
-Console.WriteLine("RSA");
-RSA rsa = new RSA();
-List<string> keys = rsa.GenerateKeysRSA();
+//Console.WriteLine("RSA");
+//RSA rsa = new RSA();
+//List<string> keys = rsa.GenerateKeysRSA();
 
-string d = keys[0];
-string n = keys[1];
-string e = keys[2];
+//string d = keys[0];
+//string n = keys[1];
+//string e = keys[2];
 
-string p = keys[3];
-string q = keys[4];
-string phi = keys[5];
+//string p = keys[3];
+//string q = keys[4];
+//string phi = keys[5];
 
-Console.WriteLine("  private exponent: " + d);
-Console.WriteLine("  modulus: " + n);
-Console.WriteLine("  public exponent: " + e);
+//Console.WriteLine("  private exponent: " + d);
+//Console.WriteLine("  modulus: " + n);
+//Console.WriteLine("  public exponent: " + e);
 
-Console.WriteLine("  p: " + p);
-Console.WriteLine("  q: " + q);
-Console.WriteLine("  totient: " + phi);
+//Console.WriteLine("  p: " + p);
+//Console.WriteLine("  q: " + q);
+//Console.WriteLine("  totient: " + phi);
+
+Console.WriteLine("AES");
+AES aes = new AES(128);
+Console.WriteLine(aes.GetKey("bytes").ToString());
+Console.WriteLine(aes.GetKey("hex"));
+Console.WriteLine(aes.GetKey("base64"));
+
 
 while (continueRun)
 {
+    // === AES STUFF ===
+
+
+
+
+
+
+
+
+
+
     // === RSA STUFF ===
 
-    Console.WriteLine("\nEnter a message: ");
-    string message = Console.ReadLine();
-    byte[] messageBytes = Encoding.UTF8.GetBytes(message);
+    //Console.WriteLine("\nEnter a message: ");
+    //string message = Console.ReadLine();
+    //byte[] messageBytes = Encoding.UTF8.GetBytes(message);
 
-    Console.WriteLine("\n ENCRYPTED MESSAGE:");
-    byte[] cipherTextBytes = rsa.Encrypt(e, n, message);
-    string cipherText = Encoding.UTF8.GetString(cipherTextBytes);
-    Console.WriteLine(" " + cipherText);
+    //Console.WriteLine("\n ENCRYPTED MESSAGE:");
+    //byte[] cipherTextBytes = rsa.Encrypt(e, n, message);
+    //string cipherText = Encoding.UTF8.GetString(cipherTextBytes);
+    //Console.WriteLine(" " + cipherText);
 
-    Console.WriteLine("\n DECRYPTED MESSAGE:");
-    byte[] plainTextBytes = rsa.Decrypt(d, n, cipherTextBytes);
-    string plainText = Encoding.UTF8.GetString(plainTextBytes);
-    Console.WriteLine(" " + plainText);
+    //Console.WriteLine("\n DECRYPTED MESSAGE:");
+    //byte[] plainTextBytes = rsa.Decrypt(d, n, cipherTextBytes);
+    //string plainText = Encoding.UTF8.GetString(plainTextBytes);
+    //Console.WriteLine(" " + plainText);
 
 
     //Console.WriteLine("\n PLAINTEXT CHARS:");
@@ -127,7 +145,7 @@ while (continueRun)
     //    }
     //    else if (userCont == "N" || userCont == "n")
     //    {
-    //        run = false;
+    //        continueRun = false;
     //        break;
     //    }
     //    else

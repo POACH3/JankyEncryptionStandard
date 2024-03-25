@@ -56,10 +56,10 @@ namespace Encrypt
         {
             List<string> keys = new List<string>(3); // public, modulus, private
             
-            //BigInteger p = RandomPrime();        // random prime 1
-            //BigInteger q = RandomPrime();        // random prime 2            
-            BigInteger p = BigRandomPrime();   // random prime 1
-            BigInteger q = BigRandomPrime();   // random prime 2
+            BigInteger p = RandomPrime();        // random prime 1
+            BigInteger q = RandomPrime();        // random prime 2            
+            //BigInteger p = BigRandomPrime();   // random prime 1
+            //BigInteger q = BigRandomPrime();   // random prime 2
             BigInteger phi = (p - 1) * (q - 1);  // euler totient
             BigInteger n = p * q;                // modulus
             int e = 65537;                       // public exponent

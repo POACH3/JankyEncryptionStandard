@@ -1,7 +1,7 @@
 ```
-Author:		   Trenton Stratton
+Author:        Trenton Stratton
 Date started:  23-MAR-2024
-GitHub ID:	   POACH3
+GitHub ID:     POACH3
 Repo:          https://github.com/POACH3/JankyEncryptionStandard
 Solution:      JankyEncryptionStandard
 ```
