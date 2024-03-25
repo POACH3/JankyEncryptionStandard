@@ -9,4 +9,8 @@ At the moment this only correctly encrypts seven characters at a time due to the
 
 I have no doubt that I am checking for primes in the most inefficient way possible...
 
-Currently this generates primes of up to 10 digits long, which can create 64-bit RSA keys. Due to checking numbers longer than 10 digits for primality taking an excessive amount of time, I will have to reevaluate how I am checking or consider creating a table of primes to look up primality.
+Currently this generates primes of up to 10 digits long, which can create 64-bit RSA keys. Due to checking numbers longer than 10 digits for primality taking an excessive amount of time, I will have to reevaluate how I am checking, consider creating a table of primes to look up primality, but more than likely implement a probabilistic way to generate primes like Miller-Rabin. 
+
+
+# AES
+Not yet functional.
