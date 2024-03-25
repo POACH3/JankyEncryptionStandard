@@ -8,18 +8,29 @@
 ///     RSA key generation
 ///     encryption
 ///     decryption
-///     square root approximation
-///     modular multiplicative inverse
 ///     check if a number is prime
 ///     list all primes less than a number n
+///     square root approximation
+///     modular multiplicative inverse
 ///     
 /// Notes:
-///     Need to find a different way to generate random
-///     numbers that are closer to 30 digits long (for
-///     512-bit RSA keys).
+///     Need create a way to generate random numbers that 
+///     are closer to 30 digits long (for 512-bit RSA keys).
+///     Method that takes in byte length of desired
+///     random number?
 ///     Currently encryption/decryption return byte arrays,
 ///     this may change to strings or allow the user to
 ///     select whichever.
+///     Need to figure out a more efficient way to check
+///     if a number is prime, as more than 10 digit primes
+///     begin to lag significantly.
+///     Need to add a check to ensure p and q aren't too
+///     close together.
+///     Need to check to ensure data doesn't exceed the 
+///     modulus size.
+///     Check if byte[] padding is a problem.
+///     Sometimes ModularInverse throws the exception that
+///     e isn't invertible.
 /// 
 /// </summary>
 
@@ -46,18 +57,26 @@ namespace Encrypt
             //string[] keys = new string[3]; // public, private
             List<string> keys = new List<string>(3); // public, private
 
+            //(int min, int max) = (100, 999);
+            //(int min, int max) = (1_000, 9_999);
+            //(int min, int max) = (100_000, 999_999);
+            //(int min, int max) = (100_000_000, 999_999_999);
+            (int min, int max) = (500_000_000, 2_147_483_647);
+
+            
             Random random = new Random();
-            BigInteger randomNum = random.Next(1_000, 9_999);
+            BigInteger randomNum = random.Next(min, max);
             //BigInteger randomNum = random.Next(100_000_000, 999_999_999);
-            BigInteger p = 0; // random prime 1
-            BigInteger q = 0; // random prime 2
-            BigInteger phi;    // euler totient
-            BigInteger n; // modulus
-            int e; // public exponent
-            BigInteger d; // private key
+            
+            BigInteger p = 0;   // random prime 1
+            BigInteger q = 0;   // random prime 2
+            BigInteger phi;     // euler totient
+            BigInteger n;       // modulus
+            int e;              // public exponent
+            BigInteger d;       // private key
 
 
-            // generate 2 large, similar bit length prime numbers that are far apart
+            // generate two large, similar bit length prime numbers that are far apart
             while (p == 0)
             {
                 if (IsPrime(randomNum))
@@ -65,13 +84,13 @@ namespace Encrypt
                     p = randomNum;
                 }
 
-                randomNum = random.Next(1_000, 9_999);
+                randomNum = random.Next(min, max);
             }
 
             while (q == 0)
             {
                 if (IsPrime(randomNum)) { q = randomNum; }
-                else { randomNum = random.Next(1_000, 9_999); }
+                else { randomNum = random.Next(min, max); }
             }
 
 
@@ -83,28 +102,24 @@ namespace Encrypt
 
             // public exponent (65537)
             //e = 65537;
-            e = 97;
+            //e = 97;
+            e = 11;
 
             // private exponent
             //d = (phi + 1) / e;
-            d = ModularInverse(e, phi);
+            d = ModInverse(e, phi);
 
             keys.Add(d.ToString());
             keys.Add(n.ToString());
             keys.Add(e.ToString());
 
+            // for testing
             keys.Add(p.ToString());
             keys.Add(q.ToString());
             keys.Add(phi.ToString());
 
             return keys;
         } // end of GenerateKeysRSA()
-
-
-        public BigInteger ModularInverse(BigInteger e, BigInteger phi)
-        {
-
-        }
 
 
         //public string EncryptRSA(string publicExponent, string modulus, string plainText)
@@ -132,44 +147,43 @@ namespace Encrypt
         //    return cipherText;
         //}
 
-        public byte[] EncryptRSA(string publicExponent, string modulus, string plainText)
+        public byte[] EncryptRSA(string publicExponent, string modulus, string plainTextMessage)
         {
             // string
             // byte array
             // encrypt
             // return byte array
 
-            byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
-            BigInteger m = new BigInteger(plainTextBytes);
-
+            byte[] plainText = Encoding.UTF8.GetBytes(plainTextMessage);
+            BigInteger m = new BigInteger(plainText);                           // byte array is interpreted as unsigned big-endian
             int e = int.Parse(publicExponent);
             BigInteger n = BigInteger.Parse(modulus);
 
-            byte[] cipherBytes = BigInteger.ModPow(m, e, n).ToByteArray();
+            byte[] cipherBytes = BigInteger.ModPow(m, e, n).ToByteArray();      // byte array is in little-endian order
 
             return cipherBytes;
         }
 
+        /// <summary>
+        ///     Returns decrypted byte array
+        /// </summary>
+        /// <param name="privateExponent"></param>
+        /// <param name="modulus"></param>
+        /// <param name="cipherText"></param>
+        /// <returns></returns>
         public byte[] DecryptRSA(string privateExponent, string modulus, byte[] cipherText)
         {
             // byte array
             // decrypt
-            // return string
+            // return byte array or string
 
             BigInteger c = new BigInteger(cipherText);
-
             BigInteger d = BigInteger.Parse(privateExponent);
             BigInteger n = BigInteger.Parse(modulus);
 
-            //plainText = (BigInteger.ModPow(c, d, null) % n).ToString();
+            BigInteger decryptFunction = BigInteger.ModPow(c, d, n);
 
-            BigInteger mathDecrypt = BigInteger.ModPow(c, d, n);
-
-            byte[] decryptedBytes = mathDecrypt.ToByteArray();
-
-            StringBuilder sb = new StringBuilder();
-
-            return decryptedBytes;
+            return decryptFunction.ToByteArray();
         }
 
 
@@ -193,7 +207,7 @@ namespace Encrypt
             BigInteger digitSum = 0;
 
             foreach (char c in num)
-                digitSum += BigInteger.Parse(c.ToString());
+                digitSum += BigInteger.Parse(c.ToString()); // TODO: need to be BigInteger?
 
             if (digitSum % 3 == 0) { return false; }
 
@@ -208,6 +222,38 @@ namespace Encrypt
 
             return true;
         } // end of IsPrime()
+
+
+        /// <summary>
+        ///     Gets list of primes up to the number n.
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public ArrayList PrimesLessThan(BigInteger n)
+        {
+            ArrayList primes = new();
+            primes.Add(new BigInteger(2)); //TODO
+            //primes.Add(2);
+
+            bool divides = false;
+
+            for (int i = 3; i < n; i++)
+            {
+                foreach (BigInteger prime in primes)
+                {
+                    if (i % prime == 0)
+                    {
+                        divides = true;
+                        break;
+                    }
+                }
+
+                if (!divides) { primes.Add(new BigInteger(i)); } //TODO: faster to not make all BigInteger?
+
+                divides = false;
+            }
+            return primes;
+        } // end of PrimesLessThan()
 
 
         /// <summary>
@@ -233,58 +279,36 @@ namespace Encrypt
             return nextApprox;
         } // end of SquareRoot()
 
-        /// <summary>
-        ///     Testing with ints.
-        /// </summary>
-        /// <param name="n"></param>
-        /// <returns></returns>
-        //public int Sqrt(int n)
-        //{
-        //    int nextApprox = 0;
-        //    int approx = n;
 
-        //    while (true)
-        //    {
-        //        nextApprox = (approx + (n / approx)) / 2;
 
-        //        if (nextApprox - approx < 1 && approx - nextApprox < 1)
-        //            break;
-
-        //        approx = nextApprox;
-        //    }
-
-        //    return nextApprox;
-        //} // end of Sqrt()
-
-        /// <summary>
-        ///     Gets list of primes up to the number n.
-        /// </summary>
-        /// <param name="n"></param>
-        /// <returns></returns>
-        public ArrayList PrimesLessThan(BigInteger n)
+        /// <exception cref="Exception"></exception>
+        public BigInteger ModInverse(BigInteger e, BigInteger phi)
         {
-            ArrayList primes = new();
-            primes.Add(new BigInteger(2));
-            //primes.Add(2);
+            // e and phi being coprime is a condition for mod inverse to exist (gdc = 1)
 
-            bool divides = false;
+            BigInteger a = 0;
+            BigInteger newA = 1;
+            BigInteger b = phi;
+            BigInteger newB = e;
 
-            for (int i = 3; i < n; i++)
+            while (newB != 0)
             {
-                foreach (BigInteger prime in primes)
-                {
-                    if (i % prime == 0)
-                    {
-                        divides = true;
-                        break;
-                    }
-                }
+                BigInteger quotient = b / newB;
 
-                if (!divides) { primes.Add(new BigInteger(i)); }
-
-                divides = false;
+                a = newA;
+                newA = a - quotient * newA;
+                b = newB;
+                newB = b - quotient * newB;
             }
-            return primes;
-        } // end of PrimesLessThan()
+
+            if (b > 1)
+                throw new Exception("The selected value for e is not invertible.");
+            
+            if (a < 0)
+                a += phi;
+
+            return a;
+        }
+
     }
 }
