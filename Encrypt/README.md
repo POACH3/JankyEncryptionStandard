@@ -1,5 +1,5 @@
 # Ceasar Cipher
-This is fully functional. Allowed characters currently are all ASCIIs from 32 to 126, but change this may change. 
+This is fully functional. Allowed characters are all ASCIIs from 32 to 126. 
 
 
 # RSA
