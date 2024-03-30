@@ -36,7 +36,7 @@ namespace Encrypt
         /// <returns></returns>
         public string Encrypt(int offset, string plainText)
         {
-            offset %= 91;
+            offset %= 95;
             
             StringBuilder sb = new StringBuilder();
             int charNum; // ASCII number of a character
@@ -45,13 +45,13 @@ namespace Encrypt
             {
                 charNum = (int)plainText[i];
 
-                if (charNum < 32 || charNum > 122)
+                if (charNum < 32 || charNum > 126)
                     throw new ArgumentException("Message contains a character that is not allowed for encryption.");
 
                 charNum += offset; // ceasar slide
 
-                if (charNum < 32) { charNum += 91; }
-                if (charNum > 122) { charNum -= 91; }
+                if (charNum < 32) { charNum += 95; }
+                if (charNum > 126) { charNum -= 95; }
 
                 sb.Append((char)charNum);
             }
@@ -68,7 +68,7 @@ namespace Encrypt
         /// <returns></returns>
         public string Decrypt(int offset, string cipherText)
         {
-            offset %= 91;
+            offset %= 95;
 
             StringBuilder sb = new StringBuilder();
             int charNum; // ASCII number of a character
@@ -77,13 +77,13 @@ namespace Encrypt
             {
                 charNum = (int)cipherText[i];
 
-                if (charNum < 32 || charNum > 122)
+                if (charNum < 32 || charNum > 126)
                     throw new ArgumentException("Encrypted message contains a character that is not allowed for decryption.");
 
                 charNum -= offset; // ceasar slide
 
-                if (charNum < 32) { charNum += 91; }
-                if (charNum > 122) { charNum -= 91; }
+                if (charNum < 32) { charNum += 95; }
+                if (charNum > 126) { charNum -= 95; }
 
                 sb.Append((char)charNum);
             }
