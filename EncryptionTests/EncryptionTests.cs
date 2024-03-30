@@ -15,6 +15,7 @@
 /// </summary> 
 
 using Encrypt;
+using System.ComponentModel;
 
 namespace EncryptionTests
 {
@@ -100,6 +101,29 @@ namespace EncryptionTests
 
             CeasarCipher ceasar = new CeasarCipher(37);
             Assert.AreEqual(s, ceasar.Decrypt(ceasar.Encrypt(s)));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InvalidOffset()
+        {
+            new CeasarCipher(95);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InvalidCharacter()
+        {
+            CeasarCipher ceasar = new CeasarCipher(1);
+            ceasar.Encrypt("€");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void DecryptInvalidCharacter()
+        {
+            CeasarCipher ceasar = new CeasarCipher(1);
+            ceasar.Decrypt("€");
         }
 
         // --- RSA TESTS ---

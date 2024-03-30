@@ -1,2 +1,2 @@
 # Ceasar Cipher testing
-End points of the ASCII values were tested in both directions (wrapping around from the bottom to the top and the top to the bottom), along with the middle, and some simple encryptions and decryptions.
+End points of the ASCII values were tested in both directions (wrapping around from the bottom to the top and the top to the bottom), along with the middle values, expected exceptions for invalid inputs, and some simple encryptions and decryptions.
