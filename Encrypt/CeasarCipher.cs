@@ -9,8 +9,6 @@
 ///     decryption
 ///     
 /// Notes:
-///     Maybe prevent user from choosing an offset that
-///     doesn't actually encrypt? (multiple of 95)
 /// 
 /// </summary>
 
@@ -21,7 +19,7 @@ namespace Encrypt
     /// <summary>
     ///     This class encrypts and decrypts Ceasar Ciphers of
     ///     a custom offset.
-    ///     Valid characters to encrypt/decrypt are all 
+    ///     Allowed characters to encrypt/decrypt are all the
     ///     ASCII characters from 32 to 126.
     /// </summary>
     public class CeasarCipher
@@ -38,7 +36,10 @@ namespace Encrypt
         /// <param name="offset">Amount that the message letters shift when encrypted.</param>
         public CeasarCipher(int offset)
         {
-            this.offset = offset % 95;
+            if (offset % range == 0)
+                throw new ArgumentException("A multiple of " + range + " won't encrypt the message.");
+            else
+                this.offset = offset % range;  
         }
         
         /// <summary>
