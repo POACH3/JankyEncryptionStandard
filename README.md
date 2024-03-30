@@ -24,6 +24,3 @@ JES is an experiment to provide coding experience for myself as well as to provi
 - Steganography
 - A VERY simple GUI (lower priority)
 
-# Testing
-... I haven't. But... I will? ...I will....  ...I will! ...I WILL. Probably.
-
