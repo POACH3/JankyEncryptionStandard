@@ -16,6 +16,7 @@
 
 using Encrypt;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace EncryptionTests
 {
@@ -112,7 +113,7 @@ namespace EncryptionTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void InvalidCharacter()
+        public void InvalidCharacterEncrypt()
         {
             CeasarCipher ceasar = new CeasarCipher(1);
             ceasar.Encrypt("€");
@@ -120,13 +121,58 @@ namespace EncryptionTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void DecryptInvalidCharacter()
+        public void InvalidCharacterDecrypt()
         {
             CeasarCipher ceasar = new CeasarCipher(1);
             ceasar.Decrypt("€");
         }
 
+
+
         // --- RSA TESTS ---
         // soon...
+
+
+
+        // --- AES TESTS ---
+
+        // using reflection to access a private method
+        [TestMethod]
+        public void Test1()
+        {
+            AES aes = new AES(128);
+            Type type = aes.GetType();
+            MethodInfo method = type.GetMethod("XOR", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            byte[] data1 = aes.ToBytes("1010");
+            byte[] data2 = aes.ToBytes("0101");
+
+            byte[] result = (byte[])method.Invoke(aes, new object[] { data1, data2 });
+
+            Assert.AreEqual("1111", aes.ToStr(result));
+        }
+
+        // using reflection to access a private field and a private method
+        [TestMethod]
+        public void Test2()
+        {
+            AES aes = new AES(128);
+            Type type = aes.GetType();
+
+            // access private method directly using reflection
+            MethodInfo method = type.GetMethod("XOR2", BindingFlags.NonPublic | BindingFlags.Instance);
+            method.Invoke(aes, null);
+
+            // access private field directly using reflection
+            FieldInfo value1Field = type.GetField("encryptionLevel", BindingFlags.NonPublic | BindingFlags.Instance);
+            int value1 = (int)value1Field.GetValue(aes);
+
+            Assert.AreEqual(129, value1);
+        }
+
+
+        
+
+
     }
 }
