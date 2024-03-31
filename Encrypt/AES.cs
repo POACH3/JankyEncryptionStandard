@@ -2,7 +2,7 @@
 /// 
 /// Author:       Trenton Stratton
 /// Date started: 25-MAR-2024
-/// Last updated: 25-MAR-2024
+/// Last updated: 31-MAR-2024
 ///
 /// File Contents: 
 ///     AES key generation
@@ -34,64 +34,12 @@ namespace Encrypt
     public class AES
     //internal class AES
     {
-        private int encryptLevel;   // 128, 256, 512... number of bits, 16, 32, 64 bytes
-        private int rounds;         // number of encryption rounds- depends on encryptionLevel
-        private byte[] originalKey; // the AES key
-        private byte[][] roundKeys; // all round keys
+        private int numBits;        // number of encryption bits... 128, 192, 256, 512... -- 16, 32, 64 bytes
+        private int rounds;         // number of encryption rounds- depends on how many encryption bits
+        private byte[] key;         // the AES key
+        private byte[][] roundKeys; // all round keys generated from expanding the key
 
-        /// <summary>
-        ///     Sets the key on instantiation.
-        /// </summary>
-        /// <param name="encryptLevel"></param>
-        public AES(int encryptLevel)
-        {
-            //if (not a valid encryption level) {
-            //throw new ArgumentException("AES encryption level not valid.");
-            //}
-            this.encryptLevel = encryptLevel;
-            rounds = (((encryptLevel / 64) - 2) * 2) + 10;
-            roundKeys = new byte[rounds][];
-
-            GenerateNewKey(encryptLevel);
-        }
-
-        /// <summary>
-        ///     Parameter is 128, 192, 256, 320, 512, etc...
-        /// </summary>
-        /// <param name="security"></param>
-        /// <returns></returns>
-        public void GenerateNewKey(int encryptLevel)
-        {
-            byte[] randomBytes = new byte[encryptLevel / 8];
-
-            using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(randomBytes);
-            }
-
-            this.originalKey = randomBytes;
-        }
-
-        /// <summary>
-        ///     Performs key expansion to generate all round keys.
-        ///     
-        ///     Steps performed to create the key for each round:
-        ///         1. previous round key is subdivided into four words
-        ///         2. each word is rotated one byte to the left
-        ///         3. each byte of each word is substituted with the S-box
-        ///         4. round constant is added to the first byte of the first word
-        ///         5. words are combined
-        ///         6. combined words is XORed with the previous round key
-        /// </summary>
-        public void ExpandKey() //private
-        {
-            int wordLength = encryptLevel / 32;             // number of bytes in each word
-            byte[,] words = new byte[4, wordLength];        // four words of each key (changes each round)
-            byte[] lastRoundKey = originalKey;              // previous round key
-            byte[] nextRoundKey = new byte[wordLength * 4]; // current round key
-
-            byte[] roundConstants = new byte[] { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36, 0x6C, 0xD8, 0xAB, 0x4D };
-            byte[] sBox = new byte[]
+        private readonly byte[] sBox = new byte[]
             {
                 0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76,
                 0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0,
@@ -111,7 +59,102 @@ namespace Encrypt
                 0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41, 0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16
             };
 
+        /// <summary>
+        ///     Generates an AES key.
+        /// </summary>
+        /// <param name="numBits"></param>
+        public AES(int numBits)
+        {
+            //if (not a valid encryption level) {
+            //throw new ArgumentException("AES encryption level not valid.");
+            //}
+            this.numBits = numBits;
+            rounds = (((numBits / 64) - 2) * 2) + 10; //TODO: nine rounds for 128?
+            roundKeys = new byte[rounds][];
 
+            GenerateNewKey(numBits);
+
+            ExpandKey();
+        }
+
+        /// <summary>
+        ///     Accepts an AES key.
+        /// </summary>
+        /// <param name="key"></param>
+        public AES(string key)
+        {
+            //if (not a valid key) {
+            //throw new ArgumentException("Key is not valid.");
+            //}
+
+            this.key = Encoding.UTF8.GetBytes(key);
+
+            ExpandKey();
+        }
+
+        /// <summary>
+        ///     Parameter is 128, 192, 256, 320, 512, etc...
+        /// </summary>
+        /// <param name="numBits"></param>
+        /// <returns></returns>
+        public void GenerateNewKey(int numBits)
+        {
+            byte[] randomBytes = new byte[numBits / 8];
+
+            using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomBytes);
+            }
+
+            this.key = randomBytes;
+        }
+
+
+        /// <summary>
+        ///     Provides the encryption key in the specified format.
+        ///     Valid formats are "byte", "hex", and "base64" for 
+        ///     representations that are an array of bytes, a
+        ///     hexadecimal string, or Base64 string respectively.
+        /// </summary>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public object GetKey(string format)
+        {
+            switch (format)
+            {
+                case "bytes":
+                    return this.key;
+                case "hex":
+                    return BitConverter.ToString(this.key).Replace("-", "");
+                case "base64":
+                    return Convert.ToBase64String(this.key);
+                default:
+                    throw new ArgumentException("Invalid format requested.");
+            }
+        }
+
+
+        /// <summary>
+        ///     Performs key expansion to generate all round keys.
+        ///     
+        ///     Steps performed to create the key for each round:
+        ///         1. previous round key is subdivided into four words
+        ///         2. each word is rotated one byte to the left
+        ///         3. each byte of each word is substituted with the S-box
+        ///         4. round constant is added to the first byte of the first word
+        ///         5. words are combined
+        ///         6. combined words is XORed with the previous round key
+        /// </summary>
+        public void ExpandKey() //private
+        {
+            int wordLength = numBits / 32;                  // number of bytes in each word
+            byte[,] words = new byte[4, wordLength];        // four words of each key (changes each round)
+            byte[] lastRoundKey = key;                      // previous round key (begins with the unexpanded key)
+            byte[] nextRoundKey = new byte[wordLength * 4]; // current round key
+
+            byte[] roundConstants = new byte[] { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36, 0x6C, 0xD8, 0xAB, 0x4D };
+            
             for (int round = 0; round < rounds; round++)
             {
                 // key subdivision
@@ -184,112 +227,130 @@ namespace Encrypt
         }
 
 
-        // METHODS FOR EXPERIMENTING WITH TESTS USING REFLECTION
-        //private byte[] XOR(byte[] a1, byte[] a2)
-        //{
-        //    byte[] result = new byte[a1.Length];
-
-        //    for (int i = 0; i < a1.Length; i++)
-        //    {
-        //        result[i] = (byte)(a1[i] ^ a2[i]);
-        //    }
-
-        //    return result;
-        //}
-
-        //private void XOR2()
-        //{
-        //    encryptionLevel = 129;
-        //}
-
-        public byte[] Bitwise(byte[] input1, byte[] input2)
+        /// <summary>   
+        ///     Encrypts data using the following steps:
+        ///         1. subdivide data into 16 byte state arrays
+        ///         2. XOR state arrays with the first round key
+        ///         3. main rounds (9 times for AES-128):
+        ///             a. substitute state array with S-box bytes
+        ///             b. shift rows
+        ///             c. mix columns
+        ///             d. add round key
+        ///         4. final round:
+        ///             a. substitute state array with S-box bytes
+        ///             b. shift rows
+        ///             c. add round key 
+        /// </summary>
+        /// <param name="plainText"></param>
+        /// <returns></returns>
+        public string Encrypt(string plainText)
         {
-            byte[] result = new byte[input1.Length];
+            ArrayList stateArrays = SubdivideData(plainText); // data represented as bytes broken into 16 byte state arrays
+            StringBuilder cipherText = new StringBuilder();   // encrypted data
 
-            for (int i = 0; i < input1.Length; i++)
+            foreach (byte[][] stateArray in stateArrays)
             {
-                result[i] = (byte)(input1[i] ^ input2[i]);
+                AddRoundKey(0, stateArray); // always add key to plain text before beginning rounds
+
+                for (int i = 0; i < rounds; i++)
+                {
+                    SubBytes(stateArray);
+                    ShiftRows(stateArray);
+                    if (i != rounds - 1) { MixColumns(); } // last round doesn't mix columns
+                    AddRoundKey(i+1, stateArray);
+                }
             }
 
-            return result;
+            foreach (byte[][] stateArray in stateArrays)
+            {
+                cipherText.Append(stateArray.ToString());
+            }
+
+            return cipherText.ToString();
         }
 
-        public byte[] ToBytes(string input)
+
+        /// <summary>
+        ///     XORs each byte of the provided state array with each
+        ///     byte of the current round key.
+        /// </summary>
+        /// <param name="roundNumber"></param>
+        /// <param name="stateArray"></param>
+        /// <returns></returns>
+        private byte[][] AddRoundKey(int roundNumber, byte[][] stateArray)
         {
-            byte[] array = new byte[input.Length];
-            
-            for (int i  = 0; i < array.Length; i++)
+            for (int i = 0; i < 4; i++)
             {
-                array[i] = (byte)Convert.ToInt16(input[i].ToString(), 2);
+                for (int j = 0; j < 4; j++)
+                {
+                    stateArray[i][j] = (byte)(stateArray[i][j] ^ roundKeys[roundNumber][(i*4) + j]);
+                }
             }
 
-            return array;
-        }
-
-        public string ToStr(byte[] bytes)
-        {
-            StringBuilder sb = new StringBuilder();
-            
-            foreach (byte b in bytes)
-            {
-                sb.Append(b);
-            }
-
-            return sb.ToString();
+            return stateArray;
         }
 
         /// <summary>
-        ///     Provides the encryption key in the specified format.
-        ///     Valid formats are "byte", "hex", and "base64" for 
-        ///     representations that are an array of bytes, a
-        ///     hexadecimal string, or Base64 string respectively.
+        ///     Divides the data into 16 byte state arrays.
+        ///     Padding (space characters) is added to the final 
+        ///     state array if it is not a multiple of 16.
         /// </summary>
-        /// <param name="format"></param>
         /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public object GetKey(string format)
+        private ArrayList SubdivideData(string data)
         {
-            switch (format) {
-                case "bytes":
-                    return this.originalKey;
-                case "hex":
-                    return BitConverter.ToString(this.originalKey).Replace("-", "");
-                case "base64":
-                    return Convert.ToBase64String(this.originalKey);
-                default:
-                    throw new ArgumentException("Invalid format requested.");
-            }   
+            ArrayList dividedData = new ArrayList();
+
+            int numChars = data.Length;
+            byte[] dataBytes;
+
+            if (numChars % 16 != 0)
+            {   // add padding if not a multiple of 16
+                int arrayLength = numChars + (16 - numChars % 16);
+                dataBytes = new byte[arrayLength];
+                Array.Copy(Encoding.UTF8.GetBytes(data), dataBytes, data.Length);
+
+                for (int i = numChars; i < arrayLength; i++)
+                {
+                    dataBytes[i] = 0x20;
+                }
+            }
+            else
+            {
+                dataBytes = Encoding.UTF8.GetBytes(data);
+            }
+
+            //TODO: would be more efficient to save in ArrayList immediately
+
+            // break into 16 byte chunks
+            for (int i = 0; i < dataBytes.Length; i += 16)
+            {
+                byte[] stateBlock = new byte[16];
+
+                for (int j = 0; j < 16; j++)
+                {
+                    stateBlock[j] = dataBytes[i + j];
+                }
+                dividedData.Add(CreateStateArray(stateBlock));
+            }
+
+            return dividedData;
         }
 
-        private ArrayList SubdivideData()
+        private byte[][] CreateStateArray(byte[] bytes)
         {
-            throw new NotImplementedException();
+            byte[][] stateBlock = new byte[4][];
 
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    stateBlock[i][j] = bytes[i * 4 + j];
+                }
+            }
+
+            return stateBlock;
         }
-        
-        public string Encrypt(string key, string plainText)
-        {
-            throw new NotImplementedException();
-            
-            //string cipherText = "";
-            //// convert to bytes
-            
-            //ExpandKey();
 
-            //ArrayList dataPackets = SubdivideData();
-
-            //AddRoundKey(); // always add key to plain text before beginning rounds
-
-            //for (int i = 0; i < rounds; i++)
-            //{  
-            //    SubBytes();
-            //    ShiftRows();
-            //    if (i != rounds - 1) { MixColumns(); } // last round doesn't mix columns
-            //    AddRoundKey(roundKeys[i + 1]);
-            //}
-
-            //return cipherText;
-        }
 
         public string Decrypt(string key, string cipherText)
         {
@@ -297,9 +358,38 @@ namespace Encrypt
         }
 
 
-        private byte[][] SubBytes()
+        /// <summary>
+        ///     Substitutes an entire state array of bytes.
+        /// </summary>
+        /// <returns></returns>
+        private byte[][] SubBytes(byte[][] stateArray)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    stateArray[i][j] = SubByte(stateArray[i][j]);
+                }
+            }
+
+            return stateArray;
+        }
+
+        /// <summary>
+        ///     Substitutes a single byte.
+        /// </summary>
+        /// <param name="initialByte"></param>
+        /// <returns></returns>
+        private byte SubByte(byte initialByte)
+        {
+            byte subbedByte;
+
+            int lowNibble = initialByte & 0x0F;               // lower order half of the byte - column index of s-box
+            int highNibble = (byte)(initialByte >> 4) & 0x0F; // higher order half of the byte - row index of s-box
+
+            subbedByte = sBox[highNibble * 16 + lowNibble];
+
+            return subbedByte;
         }
 
         /// <summary>
@@ -338,5 +428,68 @@ namespace Encrypt
         {
             throw new NotImplementedException();
         }
+
+
+
+
+
+
+        // METHODS FOR EXPERIMENTING WITH TESTS USING REFLECTION
+        //private byte[] XOR(byte[] a1, byte[] a2)
+        //{
+        //    byte[] result = new byte[a1.Length];
+
+        //    for (int i = 0; i < a1.Length; i++)
+        //    {
+        //        result[i] = (byte)(a1[i] ^ a2[i]);
+        //    }
+
+        //    return result;
+        //}
+
+        //private void XOR2()
+        //{
+        //    encryptionLevel = 129;
+        //}
+
+        public byte[] Bitwise(byte[] input1, byte[] input2)
+        {
+            byte[] result = new byte[input1.Length];
+
+            for (int i = 0; i < input1.Length; i++)
+            {
+                result[i] = (byte)(input1[i] ^ input2[i]);
+            }
+
+            return result;
+        }
+
+        public byte[] ToBytes(string input)
+        {
+            byte[] array = new byte[input.Length];
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = (byte)Convert.ToInt16(input[i].ToString(), 2);
+            }
+
+            return array;
+        }
+
+        public string ToStr(byte[] bytes)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (byte b in bytes)
+            {
+                sb.Append(b);
+            }
+
+            return sb.ToString();
+        }
+
+
+
+
     }
 }
