@@ -2,11 +2,12 @@
 /// 
 /// Author:       Trenton Stratton
 /// Date started: 23-MAR-2024
-/// Last updated: 30-MAR-2024
+/// Last updated: 31-MAR-2024
 ///
 /// File Contents:
-///     encryption
-///     decryption
+///     encrypt
+///     decrypt
+///     change shift amount
 ///     
 /// Notes:
 /// 
@@ -20,18 +21,19 @@ namespace Encrypt
     ///     This class encrypts and decrypts Ceasar Ciphers of
     ///     a custom offset.
     ///     Allowed characters to encrypt/decrypt are all the
-    ///     ASCII characters from 32 to 126.
+    ///     ASCII characters from 32 to 126 (inclusive).
     /// </summary>
     public class CeasarCipher
     {
-        static int lower = 32;                // lower end of the range of allowed ASCII values
-        static int upper = 126;               // upper end of the range of allowed ASCII values
-        static int range = upper - lower + 1; // number of allowed ASCII values
-        int offset;                           // amount of encrypt/decrypt shift
+        private static int lower = 32;                // lower end of range of allowed ASCII values
+        private static int upper = 126;               // upper end of range of allowed ASCII values
+        private static int range = upper - lower + 1; // number of allowed ASCII values
+        private int offset;                           // amount of encrypt/decrypt shift
 
 
         /// <summary>
-        ///     Constructor allows for setting a custom offset value (1-94).
+        ///     Allows for setting a custom offset value which
+        ///     is an integer from 1 to 94 (inclusive).
         /// </summary>
         /// <param name="offset">Amount that the message letters shift when encrypted.</param>
         public CeasarCipher(int offset)
@@ -96,6 +98,17 @@ namespace Encrypt
             }
 
             return sb.ToString();
+        }
+
+
+        /// <summary>
+        ///     Change the amount of encrypt/decrypt shift.
+        ///     An integer value from 1 to 94 (inclusive).
+        /// </summary>
+        /// <param name="offset">Amount that the message letters shift when encrypted.</param>
+        public void ChangeOffset(int offset)
+        {
+            this.offset = offset;
         }
 
     }
