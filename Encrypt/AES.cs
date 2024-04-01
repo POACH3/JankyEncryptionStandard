@@ -15,7 +15,8 @@
 ///     column mixing
 ///     
 /// Notes:
-///     
+///     Need to refactor SubBytes and other
+///     methods that have inverse for more DRY code.
 /// 
 /// </summary>
 
@@ -29,7 +30,7 @@ namespace Encrypt
 {
     
     /// <summary>
-    ///     This class implements an AES encryption.
+    ///     This class implements AES encryption for UTF-8 text.
     /// </summary>
     public class AES
     //internal class AES
@@ -37,7 +38,7 @@ namespace Encrypt
         private int numBits;        // number of encryption bits... 128, 192, 256, 512... -- 16, 32, 64 bytes
         private int rounds;         // number of encryption rounds- depends on how many encryption bits
         private byte[] key;         // the AES key
-        private byte[][] roundKeys; // all round keys generated from expanding the key
+        private byte[][] roundKeys; // all round keys generated from expanding the AES key
 
         private readonly byte[] sBox = new byte[]
             {
@@ -59,8 +60,28 @@ namespace Encrypt
                 0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41, 0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16
             };
 
+        private readonly byte[] inverseSbox =
+            {
+                0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb,
+                0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87, 0x34, 0x8e, 0x43, 0x44, 0xc4, 0xde, 0xe9, 0xcb,
+                0x54, 0x7b, 0x94, 0x32, 0xa6, 0xc2, 0x23, 0x3d, 0xee, 0x4c, 0x95, 0x0b, 0x42, 0xfa, 0xc3, 0x4e,
+                0x08, 0x2e, 0xa1, 0x66, 0x28, 0xd9, 0x24, 0xb2, 0x76, 0x5b, 0xa2, 0x49, 0x6d, 0x8b, 0xd1, 0x25,
+                0x72, 0xf8, 0xf6, 0x64, 0x86, 0x68, 0x98, 0x16, 0xd4, 0xa4, 0x5c, 0xcc, 0x5d, 0x65, 0xb6, 0x92,
+                0x6c, 0x70, 0x48, 0x50, 0xfd, 0xed, 0xb9, 0xda, 0x5e, 0x15, 0x46, 0x57, 0xa7, 0x8d, 0x9d, 0x84,
+                0x90, 0xd8, 0xab, 0x00, 0x8c, 0xbc, 0xd3, 0x0a, 0xf7, 0xe4, 0x58, 0x05, 0xb8, 0xb3, 0x45, 0x06,
+                0xd0, 0x2c, 0x1e, 0x8f, 0xca, 0x3f, 0x0f, 0x02, 0xc1, 0xaf, 0xbd, 0x03, 0x01, 0x13, 0x8a, 0x6b,
+                0x3a, 0x91, 0x11, 0x41, 0x4f, 0x67, 0xdc, 0xea, 0x97, 0xf2, 0xcf, 0xce, 0xf0, 0xb4, 0xe6, 0x73,
+                0x96, 0xac, 0x74, 0x22, 0xe7, 0xad, 0x35, 0x85, 0xe2, 0xf9, 0x37, 0xe8, 0x1c, 0x75, 0xdf, 0x6e,
+                0x47, 0xf1, 0x1a, 0x71, 0x1d, 0x29, 0xc5, 0x89, 0x6f, 0xb7, 0x62, 0x0e, 0xaa, 0x18, 0xbe, 0x1b,
+                0xfc, 0x56, 0x3e, 0x4b, 0xc6, 0xd2, 0x79, 0x20, 0x9a, 0xdb, 0xc0, 0xfe, 0x78, 0xcd, 0x5a, 0xf4,
+                0x1f, 0xdd, 0xa8, 0x33, 0x88, 0x07, 0xc7, 0x31, 0xb1, 0x12, 0x10, 0x59, 0x27, 0x80, 0xec, 0x5f,
+                0x60, 0x51, 0x7f, 0xa9, 0x19, 0xb5, 0x4a, 0x0d, 0x2d, 0xe5, 0x7a, 0x9f, 0x93, 0xc9, 0x9c, 0xef,
+                0xa0, 0xe0, 0x3b, 0x4d, 0xae, 0x2a, 0xf5, 0xb0, 0xc8, 0xeb, 0xbb, 0x3c, 0x83, 0x53, 0x99, 0x61,
+                0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d
+            };
+
         /// <summary>
-        ///     Generates an AES key.
+        ///     Generates an AES key of the number of bits specified.
         /// </summary>
         /// <param name="numBits"></param>
         public AES(int numBits)
@@ -70,7 +91,7 @@ namespace Encrypt
             //}
             this.numBits = numBits;
             rounds = (((numBits / 64) - 2) * 2) + 10; //TODO: nine rounds for 128?
-            roundKeys = new byte[rounds][];
+            roundKeys = new byte[rounds+1][];
 
             GenerateNewKey(numBits);
 
@@ -78,7 +99,7 @@ namespace Encrypt
         }
 
         /// <summary>
-        ///     Accepts an AES key.
+        ///     Accepts a premade AES key of a valid number of bits.
         /// </summary>
         /// <param name="key"></param>
         public AES(string key)
@@ -107,6 +128,8 @@ namespace Encrypt
             }
 
             this.key = randomBytes;
+
+            //TODO: need to reset other fields- rounds, etc...
         }
 
 
@@ -155,7 +178,7 @@ namespace Encrypt
 
             byte[] roundConstants = new byte[] { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36, 0x6C, 0xD8, 0xAB, 0x4D };
             
-            for (int round = 0; round < rounds; round++)
+            for (int round = 0; round < rounds+1; round++)
             {
                 // key subdivision
                 for (int i = 0; i < 4; i++)
@@ -229,8 +252,8 @@ namespace Encrypt
 
         /// <summary>   
         ///     Encrypts data using the following steps:
-        ///         1. subdivide data into 16 byte state arrays
-        ///         2. XOR state arrays with the first round key
+        ///         1. subdivide plain text into 16 byte state arrays
+        ///         2. XOR a state array with the first round key
         ///         3. main rounds (9 times for AES-128):
         ///             a. substitute state array with S-box bytes
         ///             b. shift rows
@@ -239,34 +262,69 @@ namespace Encrypt
         ///         4. final round:
         ///             a. substitute state array with S-box bytes
         ///             b. shift rows
-        ///             c. add round key 
+        ///             c. add round key
+        ///         5. repeat 2-4 with each state array created from the plain text    
         /// </summary>
         /// <param name="plainText"></param>
         /// <returns></returns>
         public string Encrypt(string plainText)
         {
-            ArrayList stateArrays = SubdivideData(plainText); // data represented as bytes broken into 16 byte state arrays
+            ArrayList stateArrays = SubdivideData(plainText); // data represented as bytes broken into 16 byte matrices
             StringBuilder cipherText = new StringBuilder();   // encrypted data
 
             foreach (byte[][] stateArray in stateArrays)
             {
-                AddRoundKey(0, stateArray); // always add key to plain text before beginning rounds
-
+                AddRoundKey(0, stateArray);                   // add key to plain text before beginning rounds
+               
                 for (int i = 0; i < rounds; i++)
                 {
-                    SubBytes(stateArray);
-                    ShiftRows(stateArray);
-                    if (i != rounds - 1) { MixColumns(); } // last round doesn't mix columns
-                    AddRoundKey(i+1, stateArray);
+                    //SubBytes(stateArray, false);
+                    //ShiftRows(stateArray, false);
+                    //if (i != rounds - 1) { MixColumns(); }    // last round doesn't mix columns
+                    //AddRoundKey(i+1, stateArray);
                 }
             }
 
             foreach (byte[][] stateArray in stateArrays)
             {
-                cipherText.Append(stateArray.ToString());
+                cipherText.Append(Encoding.UTF8.GetString(ReverseStateArray(stateArray)));
             }
 
             return cipherText.ToString();
+        }
+
+
+        /// <summary>
+        ///     Decrypts.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="cipherText"></param>
+        /// <returns></returns>
+        public string Decrypt(string cipherText)
+        {
+            ArrayList stateArrays = SubdivideData(cipherText); // data represented as bytes broken into 16 byte matrices
+            StringBuilder plainText = new StringBuilder();     // decrypted data
+
+            foreach (byte[][] stateArray in stateArrays)
+            {
+                //AddRoundKey(roundKeys.Length - 1, stateArray);   // add last key to cipher text before beginning rounds
+                AddRoundKey(0, stateArray); //test code
+
+                for (int i = rounds; i >= 0; i--)              // go through round keys in reverse order
+                {
+                    //SubBytes(stateArray, true);
+                    //ShiftRows(stateArray, true);
+                    //if (i != rounds - 1) { MixColumns(); }    // last round doesn't mix columns
+                    //AddRoundKey(i, stateArray);
+                }
+            }
+
+            foreach (byte[][] stateArray in stateArrays)
+            {
+                plainText.Append(Encoding.UTF8.GetString(ReverseStateArray(stateArray)));
+            }
+
+            return plainText.ToString();
         }
 
 
@@ -283,7 +341,11 @@ namespace Encrypt
             {
                 for (int j = 0; j < 4; j++)
                 {
+                    //byte temp = stateArray[i][j];
                     stateArray[i][j] = (byte)(stateArray[i][j] ^ roundKeys[roundNumber][(i*4) + j]);
+                    //stateArray[i][j] = (byte)(temp ^ roundKeys[roundNumber][(i*4) + j]);
+                    //byte debug = stateArray[i][j];
+                    //debug = (byte)(debug ^ roundKeys[roundNumber][(i * 4) + j]);
                 }
             }
 
@@ -336,9 +398,19 @@ namespace Encrypt
             return dividedData;
         }
 
+
+        /// <summary>
+        ///     Turns a 16 byte long array into a 4x4 matrix.
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
         private byte[][] CreateStateArray(byte[] bytes)
         {
             byte[][] stateBlock = new byte[4][];
+            for (int i = 0; i < 4; i++)
+            {
+                stateBlock[i] = new byte[4];
+            }
 
             for (int i = 0; i < 4; i++)
             {
@@ -352,23 +424,59 @@ namespace Encrypt
         }
 
 
-        public string Decrypt(string key, string cipherText)
-        {
-            throw new NotImplementedException();
-        }
-
-
         /// <summary>
-        ///     Substitutes an entire state array of bytes.
+        ///     Converts a 4x4 byte matrix to a byte array of 16 elements.
         /// </summary>
+        /// <param name="stateArray"></param>
         /// <returns></returns>
-        private byte[][] SubBytes(byte[][] stateArray)
+        private byte[] ReverseStateArray(byte[][] stateArray)
         {
+            byte[] bytes = new byte[16];
+
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    stateArray[i][j] = SubByte(stateArray[i][j]);
+                    bytes[(i * 4) + j] = stateArray[i][j];
+                }
+            }
+
+            return bytes;
+        }
+
+
+        /// <summary>
+        ///     Substitutes an entire 4x4 matrix of bytes.
+        /// </summary>
+        /// <returns></returns>
+        private byte[][] SubBytes(byte[][] stateArray, bool inverse)
+        {
+            if (inverse)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        int lowNibble = stateArray[i][j] & 0x0F;               // lower order half of the byte - column index of s-box
+                        int highNibble = (byte)(stateArray[i][j] >> 4) & 0x0F; // higher order half of the byte - row index of s-box
+
+                        stateArray[i][j] = inverseSbox[highNibble * 16 + lowNibble];
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        //stateArray[i][j] = SubByte(stateArray[i][j]);
+
+                        int lowNibble = stateArray[i][j] & 0x0F;               // lower order half of the byte - column index of s-box
+                        int highNibble = (byte)(stateArray[i][j] >> 4) & 0x0F; // higher order half of the byte - row index of s-box
+
+                        stateArray[i][j] = sBox[highNibble * 16 + lowNibble];
+                    }
                 }
             }
 
@@ -400,29 +508,55 @@ namespace Encrypt
         /// </summary>
         /// <param name="state"></param>
         /// <returns></returns>
-        private byte[][] ShiftRows(byte[][] state)
+        private byte[][] ShiftRows(byte[][] state, bool inverse)
         {
-            for (int i = 1; i < state.Length; i++)
+            int direction = inverse ? -1 : 1; // determines the direction rows shift
+            
+            for (int i = 1; i < 4; i++)
             {
-                Shift(state, i, i);
+                //Shift(state, i, i * direction);
+                
+                if (inverse)
+                {
+                    byte temp = state[i][0];
+
+                    for (int j = 0; j < 3; j++)
+                    {
+                        state[i][j] = state[i][j+1];
+                    }
+
+                    state[i][3] = temp;
+                }
+                else
+                {
+                    byte temp = state[i][3];
+
+                    for (int j = 3; j > 0; j--)
+                    {
+                        state[i][j] = state[i][j-1];
+                    }
+
+                    state[i][0] = temp;
+                }
+                
             }
 
             return state;
         }
 
-        private byte[][] Shift(byte[][] state, int row, int shift)
-        {
-            byte temp = state[0][row];
+        //private byte[][] Shift(byte[][] state, int row, int shift)
+        //{
+        //    byte temp = state[0][row];
 
-            for (int i = 0; i < state[0].Length-1; i++)
-            {
-                state[i][row] = state[i + 1][row];
-            }
+        //    for (int i = 0; i < 3; i++)
+        //    {
+        //        state[i][row] = state[i + 1][row];
+        //    }
 
-            state[3][row] = temp;
+        //    state[3][row] = temp;
 
-            return state;
-        }
+        //    return state;
+        //}
 
         private byte [][] MixColumns()
         {
@@ -451,43 +585,6 @@ namespace Encrypt
         //{
         //    encryptionLevel = 129;
         //}
-
-        public byte[] Bitwise(byte[] input1, byte[] input2)
-        {
-            byte[] result = new byte[input1.Length];
-
-            for (int i = 0; i < input1.Length; i++)
-            {
-                result[i] = (byte)(input1[i] ^ input2[i]);
-            }
-
-            return result;
-        }
-
-        public byte[] ToBytes(string input)
-        {
-            byte[] array = new byte[input.Length];
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                array[i] = (byte)Convert.ToInt16(input[i].ToString(), 2);
-            }
-
-            return array;
-        }
-
-        public string ToStr(byte[] bytes)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            foreach (byte b in bytes)
-            {
-                sb.Append(b);
-            }
-
-            return sb.ToString();
-        }
-
 
 
 

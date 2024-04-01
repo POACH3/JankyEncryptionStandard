@@ -17,4 +17,4 @@ Currently this generates primes of up to 10 digits long, which can create 64-bit
 ## Encryption Process
 Advanced Encryption Standard (originally Rijndael) is a symmetric encryption. A 128, 192, or 256 key is randomly generated. This key is expanded into a set of "round keys" which are what is used to encrypt the data. Data subdivided into groups of 16 bytes which is organized into a 4x4 matrix. Each group of 16 bytes then undergoes multiple rounds of substitution (for a byte value in a predefined table), row shifting, column mixing, and is XORed with a round key.
 ## Implementation
-Not yet functional. Still missing decrypt and column mixing functionality.
+Not yet functional. Still missing column mixing functionality.
