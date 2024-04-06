@@ -1,5 +1,9 @@
 # User Interface
-Currently not functional.
+Currently partially functional.
+
+Ceasar Cipher - fully functional
+RSA - partially implemented
+AES - not implemented
 
 This is intended to be used along side another program, so it is small and simple.
 

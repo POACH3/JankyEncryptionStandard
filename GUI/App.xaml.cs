@@ -21,15 +21,15 @@ namespace GUI
             if (window != null)
             {
                 window.Title = "JANKY ENCRYPTION STANDARD";
-                window.Height = 450;
-                window.Width = 500;
+                window.Height = 550;
+                window.Width = 450;
             }
 
             window.X = -5;
             window.Y = 30;
 
-            window.MinimumHeight = 400;
-            window.MinimumWidth = 325;
+            window.MinimumHeight = 500;
+            window.MinimumWidth = 400;
 
             return window;
         }

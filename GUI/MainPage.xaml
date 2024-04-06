@@ -4,177 +4,125 @@
              x:Class="GUI.MainPage">
 
     <ContentPage.Resources>
-        <Style TargetType="ScrollView">
-            <Setter Property="BackgroundColor"
-                Value="{AppThemeBinding Light='PaleTurquoise', Dark='Black'}"/>
-        </Style>
-
-        <Style TargetType="Grid">
-            <Setter Property="BackgroundColor"
-                    Value="{AppThemeBinding Light='PaleTurquoise', Dark='Black'}"/>
-        </Style>
-
-        <Style TargetType="Label">
-            <Setter Property="BackgroundColor"
-                Value="{AppThemeBinding Light='PaleTurquoise', Dark='Black'}"/>
-            <Setter Property="TextColor"
+        <Style TargetType="Button">
+            <Setter
+                Property="BackgroundColor"
+                Value="{AppThemeBinding Default='Pink', Light='LightGray', Dark='DimGray'}"/>
+            <Setter
+                Property="TextColor"
                 Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
-            <Setter Property="FontSize"
-                    Value="14"/>
+            <Setter
+                Property="BorderColor"
+                Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
+            <Setter
+                Property="BorderWidth"
+                Value="1"/>
+            <Setter
+                Property="HeightRequest"
+                Value="30"/>
+        </Style>
+
+        <Style TargetType="ContentPage">
+            <Setter
+                Property="BackgroundColor"
+                Value="{AppThemeBinding Default='Pink', Light='LightGray', Dark='DimGray'}"/>
+        </Style>
+
+        <Style TargetType="Editor">
+            <Setter
+                Property="BackgroundColor"
+                Value="{AppThemeBinding Default='Pink', Light='White', Dark='DimGray'}"/>
         </Style>
 
         <Style TargetType="Entry">
-            <Setter Property="BackgroundColor"
-                Value="{AppThemeBinding Light='LightGray', Dark='DimGray'}"/>
-            <Setter Property="TextColor"
+            <Setter
+                Property="BackgroundColor"
+                Value="{AppThemeBinding Light='White', Dark='DimGray'}"/>
+            <Setter
+                Property="TextColor"
                 Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
         </Style>
 
-        <Style TargetType="Button">
-            <Setter Property="BackgroundColor"
-                Value="{AppThemeBinding Light='LightGray', Dark='DimGray'}"/>
-            <Setter Property="TextColor"
+        <Style TargetType="Grid">
+            <Setter
+                Property="BackgroundColor"
+                Value="{AppThemeBinding Light='PaleTurquoise', Dark='Black'}"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter
+                Property="BackgroundColor"
+                Value="{AppThemeBinding Light='White', Dark='Black'}"/>
+            <Setter
+                Property="TextColor"
                 Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
-            <Setter Property="BorderColor"
+            <Setter
+                Property="FontSize"
+                Value="14"/>
+        </Style>
+
+        <Style TargetType="Shell">
+            <Setter
+                Property="BackgroundColor"
                 Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
-            <Setter Property="BorderWidth"
-                Value="1"/>
-            <Setter Property="HeightRequest"
-                Value="30"/>
+        </Style>
+
+        <Style TargetType="Frame">
+            <Setter
+                Property="BackgroundColor"
+                Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
         </Style>
     </ContentPage.Resources>
 
     <Shell.TitleView>
         <Label Text=""
-               HeightRequest="0"
-               BackgroundColor="Black"/>
+           HeightRequest="0"
+           BackgroundColor="Black"/>
     </Shell.TitleView>
-
-    <!--<ContentPage.MenuBarItems>
-        <MenuBarItem Text="Encryption Type" >
-            <MenuFlyoutItem Text="Ceasar Cipher" Clicked="GoToCeasarCipher" />
-            <MenuFlyoutItem Text="RSA" Clicked="GoToRsa" />
-            <MenuFlyoutItem Text="AES" Clicked="GoToAes" />
-        </MenuBarItem>
-        <MenuBarItem Text="Info">
-            <MenuFlyoutItem Text="About Encryption" Clicked="GoToEncryptionPage"></MenuFlyoutItem>
-            <MenuFlyoutItem Text="Help" Clicked="GoToHelpPage"></MenuFlyoutItem>
-        </MenuBarItem>-->
+    
+    <!--NOTES:
+    reduce size of menu bar
+    change font of menu bar
+    animate show/hide
+    replace copy buttons with copy icon
+    add a paste button
+    figure out returning colors back to default
+    -->
 
     <ContentPage.MenuBarItems>
-        <MenuBarItem Text="Encryption" >
-            <MenuFlyoutItem Text="Ceasar Cipher"/>
-            <MenuFlyoutItem Text="RSA"/>
-            <MenuFlyoutItem Text="AES"/>
+        <MenuBarItem Text="Encryption">
+            <MenuFlyoutItem Text="Ceasar Cipher" Clicked="GoToCeasarCipherPage"/>
+            <MenuFlyoutItem Text="RSA" Clicked="GoToRsaPage"/>
+            <MenuFlyoutItem Text="AES" Clicked="GoToAesPage"/>
+        </MenuBarItem>
+        <MenuBarItem Text="Export">
         </MenuBarItem>
         <MenuBarItem Text="Settings">
-            <MenuFlyoutItem Text="Light Mode"></MenuFlyoutItem>
-            <MenuFlyoutItem Text="Dark Mode"></MenuFlyoutItem>
+            <MenuFlyoutItem x:Name="keyVisibility" Text="Show Key" Clicked="OnClickedShowHideKey"></MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutSubItem Text="Themes">
+                <MenuFlyoutItem Text="Auto" Clicked="OnClickedAutoMode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Light Mode" Clicked="OnClickedLightMode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Dark Mode" Clicked="OnClickedDarkMode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Night Mode"></MenuFlyoutItem>
+            </MenuFlyoutSubItem>
         </MenuBarItem>
         <MenuBarItem Text="Info">
-            <MenuFlyoutItem Text="About Encryption"></MenuFlyoutItem>
-            <MenuFlyoutItem Text="Help"></MenuFlyoutItem>
+            <MenuFlyoutItem Text="Help" Clicked="GoToHelpPage"></MenuFlyoutItem>
+            <MenuFlyoutItem Text="Encryption Information" Clicked="GoToEncryptionInfoPage"></MenuFlyoutItem>
+            <MenuFlyoutItem Text="About JES" Clicked="GoToAboutJesPage"></MenuFlyoutItem>
         </MenuBarItem>
-
     </ContentPage.MenuBarItems>
 
-    <Grid RowDefinitions="150,30,1*,80,30,1*" ColumnDefinitions="1*" Padding="5">
+    <VerticalStackLayout VerticalOptions="Center">
+        <Label 
+            Text="Select an encryption type from the menu above."
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            FontAttributes="Bold"
+            FontSize="16"/>
+    </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10">
-            <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
-                <Label x:Name="keyInformationLabel"
-                       Text="KEY INFORMATION"
-                       FontSize="20"/>
-                <Button x:Name="ExpandCollapseKeyInfoButton"
-                        Text="Expand"
-                        Pressed="OnPressed"
-                        Released="OnReleased"/>
-            </FlexLayout>
 
-            <HorizontalStackLayout Spacing="5">
-                <Label x:Name="keyLabel"
-                       Text="KEY:"
-                       VerticalOptions="Center"
-                       FontSize="16"/>
-                <Entry x:Name="keyEntry"
-                       Text="KSJDFHLKFH34IY89O3U4HWG98"
-                       FontSize="16"/>
-                <Button x:Name="CopyUseKeyButton"
-                        Text="Copy Key"
-                        Pressed="OnPressed"
-                        Released="OnReleased"/>
-            </HorizontalStackLayout>
-
-            <HorizontalStackLayout Spacing="5">
-                <Entry x:Name="keyTypeEntry"
-                       Text="128"/>
-                <Button x:Name="generateNewKeyButton"
-                        Text="Generate New Key"
-                        Pressed="OnPressed"
-                        Released="OnReleased"/>
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
-        
-        <FlexLayout Direction="Row" JustifyContent="SpaceBetween" Grid.Row="1" Grid.Column="0">
-            <Label x:Name="plainTextLabel"
-                   Text="PLAIN TEXT"
-                   FontSize="20"/>
-
-            <Button x:Name="copyPlainTextButton"
-                    Text="Copy"
-                    Pressed="OnPressed"
-                    Released="OnReleased"/>
-        </FlexLayout>
-
-        <Editor x:Name="plainTextEntry"
-                Text=""
-                Grid.Row="2"
-                Grid.Column="0"
-                VerticalTextAlignment="Start"
-                TextTransform="None"
-                VerticalOptions="Fill"
-                BackgroundColor="DimGray"/>
-
-        <HorizontalStackLayout Spacing="10" Grid.Row="3" Grid.Column="0" HorizontalOptions="Center">
-            <Button x:Name="encryptButton"
-                    Text="ENCRYPT"
-                    ToolTipProperties.Text="Encrypt the plain text."
-                    HeightRequest="35"
-                    FontSize="16"
-                    Pressed="OnPressed"
-                    Released="OnReleased"/>
-            <Button x:Name="DecryptButton"
-                    ToolTipProperties.Text="Decrypt the cipher text."
-                    Text="DECRYPT"
-                    HeightRequest="35"
-                    FontSize="16"
-                    Pressed="OnPressed"
-                    Released="OnReleased"/>
-        </HorizontalStackLayout>
-
-        <StackLayout VerticalOptions="Fill" Grid.Row="4" Grid.Column="0">
-            <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
-                <Label x:Name="cipherTextLabel"
-                       Text="CIPHER TEXT"
-                       FontSize="20"
-                       HorizontalOptions="Start"/>
-                <Button x:Name="copyCipherTextButton"
-                        Text="Copy"
-                        HorizontalOptions="End"
-                        Pressed="OnPressed"
-                        Released="OnReleased"/>
-            </FlexLayout>
-        </StackLayout>
-
-        <Editor Grid.Row="5"
-                Grid.Column="0"
-                x:Name="cipherText"
-                Text=""
-                TextTransform="None"
-                VerticalTextAlignment="Start"
-                VerticalOptions="Fill"
-                BackgroundColor="DimGray"/>
-
-    </Grid>
 
 </ContentPage>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GUI.HelpPage">
+
+    <ContentPage.MenuBarItems>
+        <MenuBarItem Text="Encryption">
+            <MenuFlyoutItem Text="Ceasar Cipher"/>
+            <MenuFlyoutItem Text="RSA"/>
+            <MenuFlyoutItem Text="AES"/>
+        </MenuBarItem>
+        <MenuBarItem Text="Export">
+        </MenuBarItem>
+        <MenuBarItem Text="Settings">
+            <MenuFlyoutItem Text="Hide Key"></MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutSubItem Text="Themes">
+                <MenuFlyoutItem Text="Auto"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Light Mode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Dark Mode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Night Mode"></MenuFlyoutItem>
+            </MenuFlyoutSubItem>
+        </MenuBarItem>
+        <MenuBarItem Text="Info">
+            <MenuFlyoutItem Text="Help"></MenuFlyoutItem>
+            <MenuFlyoutItem Text="Encryption Information" Clicked="GoToEncryptionInfoPage"></MenuFlyoutItem>
+            <MenuFlyoutItem Text="About JES" Clicked="GoToAboutJesPage"></MenuFlyoutItem>
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
+
+    <Shell.TitleView>
+        <Label
+            Text="Help"
+            HeightRequest="0"
+            BackgroundColor="Black"/>
+    </Shell.TitleView>
+
+    <Label 
+            Text="No."
+            VerticalOptions="Fill"
+            VerticalTextAlignment="Center"
+            HorizontalOptions="Center"/>
+
+</ContentPage>

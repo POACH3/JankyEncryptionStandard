@@ -1,8 +1,12 @@
-﻿namespace GUI
+﻿
+
+
+using Microsoft.Maui.ApplicationModel.DataTransfer;
+
+namespace GUI
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
 
         public MainPage()
         {
@@ -23,39 +27,96 @@
 
 
 
-        /// <summary>
-        ///     Event handler that changes the button color to 
-        ///     show it is being clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void OnPressed(object sender, EventArgs e)
+
+
+        
+
+
+
+
+
+        // --- NAVIGATION ---
+
+
+
+        public async void GoToCeasarCipherPage(object sender, EventArgs e)
         {
-            if (sender is Button button)
-            {
-                button.BackgroundColor = Color.FromRgb(225, 25, 25);
-            }
+            var ceasarCipherPage = new CeasarCipherPage();
+            await Navigation.PushAsync(ceasarCipherPage, false);
+        }
+
+        public async void GoToRsaPage(object sender, EventArgs e)
+        {
+            var rsaPage = new RsaPage();
+            await Navigation.PushAsync(rsaPage, false);
+        }
+
+        public async void GoToAesPage(object sender, EventArgs e)
+        {
+            var aesPage = new AesPage();
+            await Navigation.PushAsync(aesPage, false);
         }
 
 
-        /// <summary>
-        ///     Event handler that changes the button color back
-        ///     to the original color after having been clicked on.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void OnReleased(object sender, EventArgs e)
+        public async void GoToHelpPage(object sender, EventArgs e)
         {
-            if (sender is Button button)
-            {
-                button.BackgroundColor = Color.FromRgb(100, 100, 100);
-            }
+            var helpPage = new HelpPage();
+            await Navigation.PushAsync(helpPage, false);
+        }
+
+        public async void GoToAboutJesPage(object sender, EventArgs e)
+        {
+            var aboutJesPage = new AboutJesPage();
+            await Navigation.PushAsync(aboutJesPage, false);
+        }
+
+
+        public async void GoToEncryptionInfoPage(object sender, EventArgs e)
+        {
+            var encryptionInfoPage = new EncryptionInfoPage();
+            await Navigation.PushAsync(encryptionInfoPage, false);
         }
 
 
 
 
 
+
+        // --- SETTINGS ---
+
+
+        private void OnClickedShowHideKey(object sender, EventArgs e)
+        {
+            //if (keyVisibility.Text == "Hide Key")
+            //{
+            //    keyEntry.IsPassword = true;
+            //    keyVisibility.Text = "Show Key";
+            //}
+            //else
+            //{
+            //    keyEntry.IsPassword = false;
+            //    keyVisibility.Text = "Hide Key";
+            //}
+
+        }
+
+        private void OnClickedAutoMode(object sender, EventArgs e)
+        {
+            Application.Current.UserAppTheme = AppTheme.Unspecified;
+        }
+
+        private void OnClickedLightMode(object sender, EventArgs e)
+        {
+            Application.Current.UserAppTheme = AppTheme.Light;
+        }
+
+        private void OnClickedDarkMode(object sender, EventArgs e)
+        {
+            Application.Current.UserAppTheme = AppTheme.Dark;
+        }
+
+
+        
 
 
     } // end of MainPage

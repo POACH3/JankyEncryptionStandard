@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GUI.AboutJesPage">
+
+    <ContentPage.MenuBarItems>
+        <MenuBarItem Text="Encryption">
+            <MenuFlyoutItem Text="Ceasar Cipher"/>
+            <MenuFlyoutItem Text="RSA"/>
+            <MenuFlyoutItem Text="AES"/>
+        </MenuBarItem>
+        <MenuBarItem Text="Export">
+        </MenuBarItem>
+        <MenuBarItem Text="Settings">
+            <MenuFlyoutItem Text="Hide Key"></MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutSubItem Text="Themes">
+                <MenuFlyoutItem Text="Auto"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Light Mode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Dark Mode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Night Mode"></MenuFlyoutItem>
+            </MenuFlyoutSubItem>
+        </MenuBarItem>
+        <MenuBarItem Text="Info">
+            <MenuFlyoutItem Text="Help" Clicked="GoToHelpPage"></MenuFlyoutItem>
+            <MenuFlyoutItem Text="Encryption Information" Clicked="GoToEncryptionInfoPage"></MenuFlyoutItem>
+            <MenuFlyoutItem Text="About JES"></MenuFlyoutItem>
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
+
+    <Shell.TitleView>
+        <Label
+            Text=""
+            HeightRequest="0"
+            BackgroundColor="Black"/>
+    </Shell.TitleView>
+
+    <VerticalStackLayout VerticalOptions="Center" Spacing="15">
+        <Label 
+            Text="Janky Encryption Standard version 1.0"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"/>
+
+        <Label 
+            Text="https://github.com/POACH3/JankyEncryptionStandard"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"/>
+    </VerticalStackLayout>
+    
+</ContentPage>
