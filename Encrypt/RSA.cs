@@ -43,7 +43,14 @@ namespace Encrypt
     //internal class RSA
     public class RSA
     {
-        public RSA() { }
+        private string _publicExponent;  // e
+        private string _privateExponent; // d
+        private string _modulus;         // n
+        
+        public RSA()
+        {
+            GenerateKeys();
+        }
         
         /// <summary>
         ///     Generates 64-bit RSA keys. (WOW! Much secure!)
@@ -52,7 +59,7 @@ namespace Encrypt
         ///     Need a different random number generator.
         /// </summary>
         /// <returns></returns>
-        public List<string> GenerateKeysRSA()
+        public void GenerateKeys()
         {
             List<string> keys = new List<string>(3); // public, modulus, private
             
@@ -62,22 +69,36 @@ namespace Encrypt
             //BigInteger q = BigRandomPrime();   // random prime 2
             BigInteger phi = (p - 1) * (q - 1);  // euler totient
             BigInteger n = p * q;                // modulus
+            _modulus = n.ToString();
             int e = 65537;                       // public exponent
             //e = 97;
             //e = 11;
+            _publicExponent = e.ToString();
             BigInteger d = ModInverse(e, phi);   // private exponent
+            _privateExponent = d.ToString();
+        } // end of GenerateKeysRSA()
 
-            keys.Add(d.ToString());
-            keys.Add(n.ToString());
-            keys.Add(e.ToString());
+
+        /// <summary>
+        ///     Returns the RSA keys as strings in a list.
+        ///     Public Exponent, Private Exponent, Modulus
+        /// </summary>
+        /// <returns></returns>
+        public List<string> Keys()
+        {
+            List<string> keys = new List<string>(3); // public, modulus, private
+            
+            keys.Add(_publicExponent.ToString());
+            keys.Add(_privateExponent.ToString());
+            keys.Add(_modulus.ToString());
 
             // for testing
-            keys.Add(p.ToString());
-            keys.Add(q.ToString());
-            keys.Add(phi.ToString());
+            //keys.Add(p.ToString());
+            //keys.Add(q.ToString());
+            //keys.Add(phi.ToString());
 
             return keys;
-        } // end of GenerateKeysRSA()
+        }
 
 
         //public string EncryptRSA(string publicExponent, string modulus, string plainText)
@@ -105,16 +126,20 @@ namespace Encrypt
         //    return cipherText;
         //}
 
-        public byte[] Encrypt(string publicExponent, string modulus, string plainTextMessage)
+        public byte[] Encrypt(string publicExponent, string modulus, byte[] plainTextBytes)
         {
-            byte[] plainText = Encoding.UTF8.GetBytes(plainTextMessage);
-            BigInteger m = new BigInteger(plainText);
+            BigInteger m = new BigInteger(plainTextBytes);
             int e = int.Parse(publicExponent);
             BigInteger n = BigInteger.Parse(modulus);
 
-            byte[] cipherBytes = BigInteger.ModPow(m, e, n).ToByteArray();
+            byte[] cipherTextBytes = BigInteger.ModPow(m, e, n).ToByteArray();
 
-            return cipherBytes;
+            return cipherTextBytes;
+        }
+
+        public string Encrypt(string publicExponent, string modulus, string plainTextMessage)
+        {
+            return Encoding.UTF8.GetString(Encrypt(publicExponent, modulus, Encoding.UTF8.GetBytes(plainTextMessage)));
         }
 
         /// <summary>
@@ -133,6 +158,11 @@ namespace Encrypt
             BigInteger decryptFunction = BigInteger.ModPow(c, d, n);
 
             return decryptFunction.ToByteArray();
+        }
+
+        public string Decrypt(string privateExponent, string modulus, string cipherText)
+        {
+            return Encoding.UTF8.GetString(Decrypt(privateExponent, modulus, Encoding.UTF8.GetBytes(cipherText)));
         }
 
 
