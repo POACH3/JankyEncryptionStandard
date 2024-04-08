@@ -106,7 +106,7 @@
             </MenuFlyoutSubItem>
         </MenuBarItem>
         <MenuBarItem Text="Info">
-            <MenuFlyoutItem Text="Help" Clicked="GoToHelpPage"></MenuFlyoutItem>
+            <MenuFlyoutItem Text="Help"></MenuFlyoutItem>
             <MenuFlyoutItem Text="Encryption Information"></MenuFlyoutItem>
             <MenuFlyoutItem Text="About JES"></MenuFlyoutItem>
         </MenuBarItem>
@@ -122,7 +122,7 @@
                     FontAttributes="Bold"
                     FontSize="20"/>
                 <Button
-                    x:Name="showHideKeyInfoButton"
+                    x:Name="showHideKeyInfoBtn"
                     Text="Show"
                     ToolTipProperties.Text="hide or show the key information"
                     Clicked="OnClickedShowHideKeyInfoBtn"

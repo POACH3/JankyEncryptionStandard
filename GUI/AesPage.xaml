@@ -8,13 +8,13 @@
         <Style TargetType="Button">
             <Setter
             Property="BackgroundColor"
-            Value="{AppThemeBinding Default='Pink', Light='LightGray', Dark='DimGray'}"/>
+            Value="{DynamicResource ButtonBackground}"/>
             <Setter
             Property="TextColor"
-            Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
+            Value="{DynamicResource ButtonText}"/>
             <Setter
             Property="BorderColor"
-            Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
+            Value="{DynamicResource ButtonText}"/>
             <Setter
             Property="BorderWidth"
             Value="1"/>
@@ -26,42 +26,74 @@
         <Style TargetType="ContentPage">
             <Setter
             Property="BackgroundColor"
-            Value="{AppThemeBinding Default='Pink', Light='LightGray', Dark='DimGray'}"/>
+            Value="{DynamicResource Transparent}"/>
         </Style>
 
         <Style TargetType="Editor">
             <Setter
             Property="BackgroundColor"
-            Value="{AppThemeBinding Default='Pink', Light='White', Dark='DimGray'}"/>
+            Value="{DynamicResource EditorBackground}"/>
         </Style>
 
         <Style TargetType="Entry">
             <Setter
             Property="BackgroundColor"
-            Value="{AppThemeBinding Light='White', Dark='DimGray'}"/>
+            Value="{DynamicResource EditorBackground}"/>
             <Setter
             Property="TextColor"
-            Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
+            Value="{DynamicResource PrimaryText}"/>
         </Style>
 
         <Style TargetType="Grid">
             <Setter
             Property="BackgroundColor"
-            Value="{AppThemeBinding Light='PaleTurquoise', Dark='Black'}"/>
+            Value="{DynamicResource PageBackground}"/>
         </Style>
 
         <Style TargetType="Label">
             <Setter
             Property="BackgroundColor"
-            Value="{AppThemeBinding Light='White', Dark='Black'}"/>
+            Value="{DynamicResource Transparent}"/>
             <Setter
             Property="TextColor"
-            Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
+            Value="{DynamicResource PrimaryText}"/>
             <Setter
             Property="FontSize"
             Value="14"/>
         </Style>
+
+        <Style TargetType="Shell">
+            <Setter
+            Property="BackgroundColor"
+            Value="{DynamicResource PageBackground}"/>
+        </Style>
     </ContentPage.Resources>
+
+    <ContentPage.MenuBarItems>
+        <MenuBarItem Text="Encryption">
+            <MenuFlyoutItem Text="Ceasar Cipher"/>
+            <MenuFlyoutItem Text="RSA"/>
+            <MenuFlyoutItem Text="AES"/>
+        </MenuBarItem>
+        <!--<MenuBarItem Text="Export">
+    </MenuBarItem>-->
+        <MenuBarItem Text="Settings">
+            <MenuFlyoutItem x:Name="keyVisibility" Text="Show Key" Clicked="OnClickedShowHideKey"></MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutSubItem Text="Themes">
+                <MenuFlyoutItem Text="System Mode" Clicked="OnClickedSystemMode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Light Mode" Clicked="OnClickedLightMode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Dark Mode" Clicked="OnClickedDarkMode"></MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Night Mode" Clicked="OnClickedNightMode"></MenuFlyoutItem>
+            </MenuFlyoutSubItem>
+        </MenuBarItem>
+        <MenuBarItem Text="Info">
+            <MenuFlyoutItem Text="Help"></MenuFlyoutItem>
+            <MenuFlyoutItem Text="Encryption Information"></MenuFlyoutItem>
+            <MenuFlyoutItem Text="About JES"></MenuFlyoutItem>
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
 
     <Shell.TitleView>
         <Label
@@ -71,105 +103,116 @@
     </Shell.TitleView>
 
 
-    <VerticalStackLayout VerticalOptions="Center">
+    <!--<VerticalStackLayout VerticalOptions="Center">
         <Label 
             Text="Not yet implemented."
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    </VerticalStackLayout>-->
 
 
-    <!--<Grid x:Name="mainContainer" RowDefinitions="40,30,1*,80,30,1*" ColumnDefinitions="1*" Padding="5">
+    <Grid x:Name="mainContainer" RowDefinitions="40,30,1*,80,30,1*" ColumnDefinitions="1*" Padding="5">
 
         <VerticalStackLayout x:Name="keyInfoContainer" Grid.Row="0" Grid.Column="0" Spacing="10" VerticalOptions="Start">
             <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
                 <Label
                     x:Name="keyInformationLabel"
-               Text="ENCRYPTION KEY"
-               FontAttributes="Bold"
-               FontSize="20"/>
+                    Text="ENCRYPTION KEY"
+                    FontAttributes="Bold"
+                    FontSize="20"/>
                 <Button
-                    x:Name="showHideKeyInfoButton"
-                Text="Show"
-                ToolTipProperties.Text="hide or show the key information"
-                Clicked="OnClickedShowHideKeyInfoBtn"
-                Pressed="OnPressed"
-                Released="OnReleased"/>
+                    x:Name="showHideKeyInfoBtn"
+                    Text="Show"
+                    ToolTipProperties.Text="hide or show the key information"
+                    Clicked="OnClickedShowHideKeyInfoBtn"
+                    Pressed="OnPressed"
+                    Released="OnReleased"/>
             </FlexLayout>
 
             <HorizontalStackLayout x:Name="keyInfo1" IsVisible="false" Spacing="5">
                 <Label
                     x:Name="keyLabel"
-               Text="KEY:"
-               VerticalOptions="Center"
-               FontSize="16"/>
+                    Text="KEY:"
+                    VerticalOptions="Center"
+                    FontSize="16"/>
                 <Entry
                     x:Name="keyEntry"
-               Text="KSJDFHLKFH34IY89O3U4HWG98"
-               FontSize="16"
-               IsPassword="True"/>
+                    Text=""
+                    FontSize="16"
+                    IsPassword="True"/>
                 <Button
                     x:Name="CopyUseKeyButton"
-                Text="Copy"
-                ToolTipProperties.Text="copy the encryption key."
-                Clicked="OnClickedCopyUseKeyBtn"
-                Pressed="OnPressed"
-                Released="OnReleased"/>
+                    Text="Copy"
+                    ToolTipProperties.Text="copy the encryption key."
+                    Clicked="OnClickedCopyUseKeyBtn"
+                    Pressed="OnPressed"
+                    Released="OnReleased"/>
             </HorizontalStackLayout>
 
             <HorizontalStackLayout x:Name="keyInfo2" IsVisible="false" Spacing="5">
-                <Entry
+                <!--<Entry
                     x:Name="keyTypeEntry"
-               Text="128"/>
+                    Text=""/>-->
+                <Picker x:Name="picker">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:Int32}">
+                            <x:Int32>128</x:Int32>
+                            <x:Int32>192</x:Int32>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
                 <Button
                     x:Name="generateNewKeyButton"
-                Text="Generate New Key"
-                Pressed="OnPressed"
-                Released="OnReleased"/>
+                    Text="Generate New Key"
+                    Clicked="OnClickedGenerateNewKey"
+                    Pressed="OnPressed"
+                    Released="OnReleased"/>
             </HorizontalStackLayout>
         </VerticalStackLayout>
 
         <FlexLayout Direction="Row" JustifyContent="SpaceBetween" Grid.Row="1" Grid.Column="0">
             <Label
                 x:Name="plainTextLabel"
-           Text="PLAIN TEXT"
-           FontSize="20"
-           FontAttributes="Bold"/>
+                Text="PLAIN TEXT"
+                FontSize="20"
+                FontAttributes="Bold"/>
 
             <Button
                 x:Name="copyPlainTextButton"
-            Text="Copy"
-            ToolTipProperties.Text="copy the plain text."
-            Pressed="OnPressed"
-            Released="OnReleased"/>
+                Text="Copy"
+                ToolTipProperties.Text="copy the plain text."
+                Pressed="OnPressed"
+                Released="OnReleased"/>
         </FlexLayout>
 
         <Editor
             x:Name="plainTextEditor"
-        Text=""
-        Grid.Row="2"
-        Grid.Column="0"
-        VerticalTextAlignment="Start"
-        TextTransform="None"
-        VerticalOptions="Fill"/>
+            Text=""
+            Grid.Row="2"
+            Grid.Column="0"
+            VerticalTextAlignment="Start"
+            TextTransform="None"
+            VerticalOptions="Fill"/>
 
         <HorizontalStackLayout Spacing="10" Grid.Row="3" Grid.Column="0" HorizontalOptions="Center">
             <Button
                 x:Name="encryptButton"
-            Text="ENCRYPT"
-            ToolTipProperties.Text="Encrypt the plain text."
-            HeightRequest="35"
-            FontSize="16"
-            Pressed="OnPressed"
-            Released="OnReleased"/>
+                Text="ENCRYPT"
+                ToolTipProperties.Text="Encrypt the plain text."
+                HeightRequest="35"
+                FontSize="16"
+                Clicked="OnClickedEncryptBtn"
+                Pressed="OnPressed"
+                Released="OnReleased"/>
             <Button
                 x:Name="DecryptButton"
-            ToolTipProperties.Text="Decrypt the cipher text."
-            Text="DECRYPT"
-            HeightRequest="35"
-            FontSize="16"
-            Pressed="OnPressed"
-            Released="OnReleased"/>
+                ToolTipProperties.Text="Decrypt the cipher text."
+                Text="DECRYPT"
+                HeightRequest="35"
+                FontSize="16"
+                Clicked="OnClickedDecryptBtn"
+                Pressed="OnPressed"
+                Released="OnReleased"/>
         </HorizontalStackLayout>
 
         <StackLayout VerticalOptions="Fill" Grid.Row="4" Grid.Column="0">
@@ -199,6 +242,6 @@
             VerticalTextAlignment="Start"
             VerticalOptions="Fill"/>
 
-    </Grid>-->
+    </Grid>
     
 </ContentPage>

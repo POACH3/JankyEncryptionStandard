@@ -13,6 +13,7 @@ public partial class RsaPage : ContentPage
 	{
 		InitializeComponent();
         //BindingContext = this;
+        GenerateNewKey();
 	}
 
 
@@ -92,13 +93,13 @@ public partial class RsaPage : ContentPage
 
     public void OnClickedShowHideKeyInfoBtn(object sender, EventArgs e)
     {
-        if (showHideKeyInfoButton.Text == "Hide")
+        if (showHideKeyInfoBtn.Text == "Hide")
         {
             keyInfo1.IsVisible = false;
             keyInfo2.IsVisible = false;
             keyInfo3.IsVisible = false;
             keyInfo4.IsVisible = false;
-            showHideKeyInfoButton.Text = "Show";
+            showHideKeyInfoBtn.Text = "Show";
 
             mainContainer.RowDefinitions[0].Height = new GridLength(40, GridUnitType.Absolute);
         }
@@ -108,7 +109,7 @@ public partial class RsaPage : ContentPage
             keyInfo2.IsVisible = true;
             keyInfo3.IsVisible = true;
             keyInfo4.IsVisible = true;
-            showHideKeyInfoButton.Text = "Hide";
+            showHideKeyInfoBtn.Text = "Hide";
 
             mainContainer.RowDefinitions[0].Height = new GridLength(230, GridUnitType.Absolute);
         }
@@ -154,12 +155,14 @@ public partial class RsaPage : ContentPage
             privateKeyEntry.IsPassword = true;
             modulusEntry.IsPassword = true;
             keyVisibility.Text = "Show Key";
+            Preferences.Default.Set<bool>(nameof(keyVisibility), false);
         }
         else
         {
             privateKeyEntry.IsPassword = false;
             modulusEntry.IsPassword = false;
             keyVisibility.Text = "Hide Key";
+            Preferences.Default.Set<bool>(nameof(keyVisibility), true);
         }
 
     }
@@ -199,8 +202,8 @@ public partial class RsaPage : ContentPage
 
     public async void GoToHelpPage(object sender, EventArgs e)
     {
-        var helpPage = new HelpPage();
-        await Navigation.PushAsync(helpPage, false);
+        //var helpPage = new HelpPage();
+        //await Navigation.PushAsync(helpPage, false);
     }
 
     private void MenuFlyoutItem_Clicked(object sender, EventArgs e)

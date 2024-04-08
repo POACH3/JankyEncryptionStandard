@@ -122,10 +122,6 @@
             HorizontalOptions="Center"
             FontAttributes="Bold"
             FontSize="16"/>
-
-        <Editor
-            Text="Testing"
-            />
     </VerticalStackLayout>
     
 
