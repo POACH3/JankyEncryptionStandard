@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="GUI.Resources.Themes.Light">
+
+    <!--<Color x:Key="Primary">#DDDDDD</Color>
+    <Color x:Key="PrimaryDark">#9988EE</Color>
+    <Color x:Key="PrimaryDarkText">#00AA00</Color>
+    <Color x:Key="Secondary">#88FFEE</Color>
+    <Color x:Key="SecondaryDarkText">#00CC00</Color>
+    <Color x:Key="Tertiary">#FF55FF</Color>-->
+
+    <!--<Color x:Key="PrimaryBackground">#DDDDDD</Color>
+    <Color x:Key="PrimaryDarkBackground">#93A8C9</Color>
+    <Color x:Key="PrimaryDarkText">#000000</Color>
+    <Color x:Key="Secondary">#C5C5C5</Color>
+    <Color x:Key="SecondaryDarkText">#00CC00</Color>
+    <Color x:Key="Tertiary">#FF55FF</Color>-->
+
+
+    <Color x:Key="MenuBarBackground">#9BA3B0</Color>
+    <Color x:Key="MenuBarText">#333333</Color>
+    <!--<Color x:Key="MenuBarHighlight">#A5A5A5</Color>-->
+    <Color x:Key="MenuBarHighlight">#FFA5A5</Color>
+
+    <Color x:Key="PageBackground">#FFFFFF</Color>
+
+    <Color x:Key="PrimaryText">#000000</Color>
+    <Color x:Key="EditorBackground">#E5E5E5</Color>
+   
+    <Color x:Key="ButtonBackground">#E5E5E5</Color>
+    <Color x:Key="ButtonText">#000000</Color>
+
+    <!--<Color x:Key="GridBackground">Transparent</Color>-->
+    <Color x:Key="Transparent">Transparent</Color>
+    
+
+
+</ResourceDictionary>

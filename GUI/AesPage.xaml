@@ -79,7 +79,7 @@
     </VerticalStackLayout>
 
 
-    <Grid x:Name="mainContainer" RowDefinitions="40,30,1*,80,30,1*" ColumnDefinitions="1*" Padding="5">
+    <!--<Grid x:Name="mainContainer" RowDefinitions="40,30,1*,80,30,1*" ColumnDefinitions="1*" Padding="5">
 
         <VerticalStackLayout x:Name="keyInfoContainer" Grid.Row="0" Grid.Column="0" Spacing="10" VerticalOptions="Start">
             <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
@@ -199,6 +199,6 @@
             VerticalTextAlignment="Start"
             VerticalOptions="Fill"/>
 
-    </Grid>
+    </Grid>-->
     
 </ContentPage>

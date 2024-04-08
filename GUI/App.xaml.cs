@@ -8,10 +8,17 @@ namespace GUI
         public App()
         {
             InitializeComponent();
+            //SetTheme();
 
             MainPage = new AppShell();
 
             //MauiWinUIWindow.Current.UpdateMinimumSize(100, 200);
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            ThemeManager.initialize();
         }
 
         protected override Window CreateWindow(IActivationState activationState)
@@ -33,5 +40,7 @@ namespace GUI
 
             return window;
         }
+
+        //public void SetTheme() { }
     }
 }

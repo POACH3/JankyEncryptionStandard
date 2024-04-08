@@ -98,7 +98,8 @@
                     FontSize="16"/>
                 <Entry
                     x:Name="keyEntry"
-                    Text="5"
+                    Text=""
+                    HorizontalTextAlignment="Center"
                     FontSize="16"
                     IsPassword="false"
                     Unfocused="OnUnfocusedShiftEntry"/>

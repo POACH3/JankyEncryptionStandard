@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="GUI.Resources.Themes.Night">
+
+
+    <!-- NIGHT THEME -->
+    <!--<Color x:Key="NightPrimary">#FF0000</Color>
+    <Color x:Key="NightSecondary">#BB0000</Color>
+    <Color x:Key="NightTertiary">#660000</Color>
+    <Color x:Key="NightLightAccent">#01A000</Color>
+    <Color x:Key="NightDarkAccent">#000000</Color>-->
+
+    
+    <Color x:Key="MenuBarBackground">#111111</Color>
+    <Color x:Key="MenuBarText">#AA0000</Color>
+
+    <Color x:Key="PageBackground">#000000</Color>
+
+    <Color x:Key="PrimaryText">#AA0000</Color>
+    <Color x:Key="EditorBackground">#550000</Color>
+
+</ResourceDictionary>

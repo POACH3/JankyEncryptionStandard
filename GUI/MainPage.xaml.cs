@@ -2,6 +2,7 @@
 
 
 using Microsoft.Maui.ApplicationModel.DataTransfer;
+using GUI.Resources.Themes;
 
 namespace GUI
 {
@@ -100,23 +101,38 @@ namespace GUI
 
         }
 
-        private void OnClickedAutoMode(object sender, EventArgs e)
+        private void OnClickedSystemMode(object sender, EventArgs e)
         {
-            Application.Current.UserAppTheme = AppTheme.Unspecified;
+            //Application.Current.UserAppTheme = AppTheme.Unspecified;
+            ThemeManager.SetTheme(nameof(GUI.Resources.Themes.Default));
         }
 
         private void OnClickedLightMode(object sender, EventArgs e)
         {
-            Application.Current.UserAppTheme = AppTheme.Light;
+            //Application.Current.UserAppTheme = AppTheme.Light;
+            ThemeManager.SetTheme("Light");
         }
 
         private void OnClickedDarkMode(object sender, EventArgs e)
         {
-            Application.Current.UserAppTheme = AppTheme.Dark;
+            //Application.Current.UserAppTheme = AppTheme.Dark;
+            ThemeManager.SetTheme(nameof(GUI.Resources.Themes.Dark));
+        }
+
+        private void OnClickedNightMode(object sender, EventArgs e)
+        {
+            //Application.Current.UserAppTheme = AppTheme.Unspecified;
+            //Application.Current.UserAppTheme = Application.Current.RequestedTheme;
+
+            //Preferences.Set("Theme", "Night");
+
+
+            ThemeManager.SetTheme(nameof(GUI.Resources.Themes.Night));
+
         }
 
 
-        
+
 
 
     } // end of MainPage

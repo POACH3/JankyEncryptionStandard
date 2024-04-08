@@ -1,16 +1,17 @@
 # User Interface
 Currently partially functional.
 
-Ceasar Cipher - fully functional
-RSA - partially implemented
-AES - not implemented
-
 This is intended to be used along side another program, so it is small and simple.
 
+## Implemented Features
+- Ceasar Cipher (shift selection, encrypt, decrypt)
+- RSA (key generation, use keys from another source, encrypt, decrypt)
+- Light, dark, and night modes 
+
 ## Planned Features
-This GUI is bare bones. The user will be able to select different encryption types and generate keys (and use their own in the case of AES). There will be a light and dark mode.
+- AES (key generation, use keys from another source)
 
 ## Possible Future Features
-Some way to output information directly to another program.
-Export as a radio mode (RTTY, JS8, FT8, morse code).
-Export an audio file.
+- Some way to output information directly to another program.
+- Export as a radio mode (RTTY, JS8, FT8, morse code).
+- Export an audio file.

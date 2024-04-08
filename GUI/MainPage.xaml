@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GUI.MainPage">
 
-    <ContentPage.Resources>
+    <!--<ContentPage.Resources>
         <Style TargetType="Button">
             <Setter
                 Property="BackgroundColor"
@@ -72,7 +72,7 @@
                 Property="BackgroundColor"
                 Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
         </Style>
-    </ContentPage.Resources>
+    </ContentPage.Resources>-->
 
     <Shell.TitleView>
         <Label Text=""
@@ -95,16 +95,17 @@
             <MenuFlyoutItem Text="RSA" Clicked="GoToRsaPage"/>
             <MenuFlyoutItem Text="AES" Clicked="GoToAesPage"/>
         </MenuBarItem>
-        <MenuBarItem Text="Export">
-        </MenuBarItem>
+        <!--<MenuBarItem Text="Export">
+        </MenuBarItem>-->
         <MenuBarItem Text="Settings">
             <MenuFlyoutItem x:Name="keyVisibility" Text="Show Key" Clicked="OnClickedShowHideKey"></MenuFlyoutItem>
             <MenuFlyoutSeparator/>
             <MenuFlyoutSubItem Text="Themes">
-                <MenuFlyoutItem Text="Auto" Clicked="OnClickedAutoMode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="System Mode" Clicked="OnClickedSystemMode"></MenuFlyoutItem>
                 <MenuFlyoutItem Text="Light Mode" Clicked="OnClickedLightMode"></MenuFlyoutItem>
                 <MenuFlyoutItem Text="Dark Mode" Clicked="OnClickedDarkMode"></MenuFlyoutItem>
-                <MenuFlyoutItem Text="Night Mode"></MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Night Mode" Clicked="OnClickedNightMode"></MenuFlyoutItem>
             </MenuFlyoutSubItem>
         </MenuBarItem>
         <MenuBarItem Text="Info">
@@ -121,7 +122,12 @@
             HorizontalOptions="Center"
             FontAttributes="Bold"
             FontSize="16"/>
+
+        <Editor
+            Text="Testing"
+            />
     </VerticalStackLayout>
+    
 
 
 

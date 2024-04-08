@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="GUI.Resources.Themes.NightGreen">
+
+    <Color x:Key="Primary">#00FF00</Color>
+    <Color x:Key="PrimaryDark">#00BB00</Color>
+    <Color x:Key="PrimaryDarkText">#006600</Color>
+    <Color x:Key="Secondary">#01A000</Color>
+    <Color x:Key="SecondaryDarkText">#009900</Color>
+    <Color x:Key="Tertiary">#008800</Color>
+
+</ResourceDictionary>

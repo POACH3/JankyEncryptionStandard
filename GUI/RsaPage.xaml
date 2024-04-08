@@ -2,19 +2,19 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GUI.RsaPage"
-             Title="RsaPage">
+             Title="">
 
     <ContentPage.Resources>
         <Style TargetType="Button">
             <Setter
                 Property="BackgroundColor"
-                Value="{AppThemeBinding Default='Pink', Light='LightGray', Dark='DimGray'}"/>
+                Value="{DynamicResource ButtonBackground}"/>
             <Setter
                 Property="TextColor"
-                Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
+                Value="{DynamicResource ButtonText}"/>
             <Setter
                 Property="BorderColor"
-                Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
+                Value="{DynamicResource ButtonText}"/>
             <Setter
                 Property="BorderWidth"
                 Value="1"/>
@@ -26,48 +26,55 @@
         <Style TargetType="ContentPage">
             <Setter
                 Property="BackgroundColor"
-                Value="{AppThemeBinding Default='Pink', Light='LightGray', Dark='DimGray'}"/>
+                Value="{DynamicResource Transparent}"/>
         </Style>
 
         <Style TargetType="Editor">
             <Setter
                 Property="BackgroundColor"
-                Value="{AppThemeBinding Default='Pink', Light='White', Dark='DimGray'}"/>
+                Value="{DynamicResource EditorBackground}"/>
         </Style>
 
         <Style TargetType="Entry">
             <Setter
                 Property="BackgroundColor"
-                Value="{AppThemeBinding Light='White', Dark='DimGray'}"/>
+                Value="{DynamicResource EditorBackground}"/>
             <Setter
                 Property="TextColor"
-                Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
+                Value="{DynamicResource PrimaryText}"/>
         </Style>
 
         <Style TargetType="Grid">
             <Setter
                 Property="BackgroundColor"
-                Value="{AppThemeBinding Light='PaleTurquoise', Dark='Black'}"/>
+                Value="{DynamicResource PageBackground}"/>
         </Style>
 
         <Style TargetType="Label">
             <Setter
                 Property="BackgroundColor"
-                Value="{AppThemeBinding Light='White', Dark='Black'}"/>
+                Value="{DynamicResource Transparent}"/>
             <Setter
                 Property="TextColor"
-                Value="{AppThemeBinding Light='Black', Dark='LightGray'}"/>
+                Value="{DynamicResource PrimaryText}"/>
             <Setter
                 Property="FontSize"
                 Value="14"/>
         </Style>
+
+        <Style TargetType="Shell">
+            <Setter
+                Property="BackgroundColor"
+                Value="{DynamicResource PageBackground}"/>
+        </Style>
+
     </ContentPage.Resources>
 
-    <Shell.TitleView>
+    <!--<Shell.TitleView>
         <Label Text=""
            HeightRequest="0"
            BackgroundColor="Black"/>
-    </Shell.TitleView>
+    </Shell.TitleView>-->
 
     <!--<ContentPage.MenuBarItems>
     <MenuBarItem Text="Encryption Type" >
@@ -92,10 +99,10 @@
             <MenuFlyoutItem x:Name="keyVisibility" Text="Show Key" Clicked="OnClickedShowHideKey"></MenuFlyoutItem>
             <MenuFlyoutSeparator/>
             <MenuFlyoutSubItem Text="Themes">
-                <MenuFlyoutItem Text="Auto" Clicked="OnClickedAutoMode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Auto" Clicked="OnClickedSystemMode"></MenuFlyoutItem>
                 <MenuFlyoutItem Text="Light Mode" Clicked="OnClickedLightMode"></MenuFlyoutItem>
                 <MenuFlyoutItem Text="Dark Mode" Clicked="OnClickedDarkMode"></MenuFlyoutItem>
-                <MenuFlyoutItem Text="Night Mode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Night Mode" Clicked="OnClickedNightMode"></MenuFlyoutItem>
             </MenuFlyoutSubItem>
         </MenuBarItem>
         <MenuBarItem Text="Info">
