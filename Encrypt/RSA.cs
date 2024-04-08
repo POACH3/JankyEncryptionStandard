@@ -2,7 +2,7 @@
 /// 
 /// Author:       Trenton Stratton
 /// Date started: 23-MAR-2024
-/// Last updated: 24-MAR-2024
+/// Last updated: 08-APR-2024
 ///
 /// File Contents: 
 ///     RSA key generation
@@ -18,9 +18,6 @@
 ///     are closer to 30 digits long (for 512-bit RSA keys).
 ///     Method that takes in byte length of desired
 ///     random number?
-///     Currently encryption/decryption return byte arrays,
-///     this may change to strings or allow the user to
-///     select whichever.
 ///     Need to figure out a more efficient way to check
 ///     if a number is prime, as more than 10 digit primes
 ///     begin to lag significantly.
@@ -40,17 +37,28 @@ using System.Text;
 
 namespace Encrypt
 {
-    //internal class RSA
+    
+    /// <summary>
+    ///     This class creates RSA keys and performs
+    ///     the operations necessary to encrypt and 
+    ///     decrypt strings and byte arrays, outputting
+    ///     in the format received.
+    /// </summary>
     public class RSA
     {
         private string _publicExponent;  // e
         private string _privateExponent; // d
         private string _modulus;         // n
         
+
+        /// <summary>
+        ///     Constructor sets up the RSA keys.
+        /// </summary>
         public RSA()
         {
             GenerateKeys();
         }
+
         
         /// <summary>
         ///     Generates 64-bit RSA keys. (WOW! Much secure!)
@@ -126,6 +134,13 @@ namespace Encrypt
         //    return cipherText;
         //}
 
+        /// <summary>
+        ///     Encrypts a byte array.
+        /// </summary>
+        /// <param name="publicExponent"></param>
+        /// <param name="modulus"></param>
+        /// <param name="plainTextBytes"></param>
+        /// <returns></returns>
         public byte[] Encrypt(string publicExponent, string modulus, byte[] plainTextBytes)
         {
             BigInteger m = new BigInteger(plainTextBytes);
@@ -137,13 +152,22 @@ namespace Encrypt
             return cipherTextBytes;
         }
 
-        public string Encrypt(string publicExponent, string modulus, string plainTextMessage)
-        {
-            return Encoding.UTF8.GetString(Encrypt(publicExponent, modulus, Encoding.UTF8.GetBytes(plainTextMessage)));
-        }
 
         /// <summary>
-        ///     Returns decrypted byte array
+        ///     Encrypts a string.
+        /// </summary>
+        /// <param name="publicExponent"></param>
+        /// <param name="modulus"></param>
+        /// <param name="plainTextMessage"></param>
+        /// <returns></returns>
+        public string Encrypt(string publicExponent, string modulus, string plainTextMessage)
+        {
+            return Convert.ToBase64String(Encrypt(publicExponent, modulus, Encoding.UTF8.GetBytes(plainTextMessage)));
+        }
+
+
+        /// <summary>
+        ///     Returns a decrypted byte array.
         /// </summary>
         /// <param name="privateExponent"></param>
         /// <param name="modulus"></param>
@@ -160,9 +184,17 @@ namespace Encrypt
             return decryptFunction.ToByteArray();
         }
 
+
+        /// <summary>
+        ///     Returns a decrypted string.
+        /// </summary>
+        /// <param name="privateExponent"></param>
+        /// <param name="modulus"></param>
+        /// <param name="cipherText"></param>
+        /// <returns></returns>
         public string Decrypt(string privateExponent, string modulus, string cipherText)
         {
-            return Encoding.UTF8.GetString(Decrypt(privateExponent, modulus, Encoding.UTF8.GetBytes(cipherText)));
+            return Encoding.UTF8.GetString(Decrypt(privateExponent, modulus, Convert.FromBase64String(cipherText)));
         }
 
 
@@ -266,6 +298,7 @@ namespace Encrypt
             return prime;
         }
 
+
         /// <summary>
         ///     Generates two large, similar bit length prime numbers.
         ///     
@@ -300,6 +333,7 @@ namespace Encrypt
 
             return prime;
         }
+
 
         /// <summary>
         ///     Approximates roots using the Newton-Raphson Method.
