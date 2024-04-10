@@ -7,14 +7,14 @@ Solution:      JankyEncryptionStandard
 ```
 
 # Janky Encryption Standard (JES)
-JES is an experiment to provide coding experience as well as to provide some familiarity with methods of encryption.
+The intent of JES is to provide some familiarity with methods of encryption.
 
 # Current JES functionality
 **JES has terrible implementations of the following:**
 
 - Ceasar Cipher
 - Rivest-Shamir-Adleman (RSA)         (needs some work)
-- Advanced Encryption Standard (AES)  (work in progress)
+- Advanced Encryption Standard (AES)  (needs some work)
 
 >There is a console app as well as a GUI (console app is being used for testing, GUI is a work in progress)
  
