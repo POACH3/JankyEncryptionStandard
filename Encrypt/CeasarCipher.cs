@@ -2,15 +2,13 @@
 /// 
 /// Author:       Trenton Stratton
 /// Date started: 23-MAR-2024
-/// Last updated: 31-MAR-2024
+/// Last updated: 10-APR-2024
 ///
 /// File Contents:
 ///     encrypt
 ///     decrypt
 ///     change shift amount
-///     
-/// Notes:
-/// 
+///
 /// </summary>
 
 using System.Text;
@@ -18,97 +16,100 @@ using System.Text;
 namespace Encrypt
 {
     /// <summary>
-    ///     This class encrypts and decrypts Ceasar Ciphers of
-    ///     a custom offset.
+    ///     This class encrypts and decrypts Ceasar Ciphers
+    ///     using the selected shift amount (an integer from
+    ///     1 to 94 inclusive).
     ///     Allowed characters to encrypt/decrypt are all the
     ///     ASCII characters from 32 to 126 (inclusive).
     /// </summary>
     public class CeasarCipher
     {
-        private static int lower = 32;                // lower end of range of allowed ASCII values
-        private static int upper = 126;               // upper end of range of allowed ASCII values
-        private static int range = upper - lower + 1; // number of allowed ASCII values
-        private int offset;                           // amount of encrypt/decrypt shift
+        private static int _lower = 32;                  // lower end of range of allowed ASCII values
+        private static int _upper = 126;                 // upper end of range of allowed ASCII values
+        private static int _range = _upper - _lower + 1; // number of allowed ASCII values
+        private int _shift;                              // amount of encrypt/decrypt offset
 
 
         /// <summary>
-        ///     Allows for setting a custom offset value which
+        ///     Allows for setting a character offset value which
         ///     is an integer from 1 to 94 (inclusive).
         /// </summary>
-        /// <param name="offset">Amount that the message letters shift when encrypted.</param>
-        public CeasarCipher(int offset)
+        /// <param name="shift">Amount that the message letters shift when encrypted.</param>
+        public CeasarCipher(int shift)
         {
-            if (offset % range == 0)
-                throw new ArgumentException("A multiple of " + range + " won't encrypt the message.");
+            if (shift % _range == 0)
+                throw new ArgumentException("A multiple of " + _range + " won't encrypt the message.");
             else
-                this.offset = offset % range;  
+                this._shift = shift % _range;  
         }
+
         
         /// <summary>
-        ///     Encrypts using the chosen offset value.
+        ///     Encrypts using the chosen shift value.
         /// </summary>
         /// <param name="plainText">plain text message</param>
         /// <returns>A string that is the message encrypted.</returns>
         public string Encrypt(string plainText)
         {
-            StringBuilder sb = new StringBuilder();
-            int charNum; // ASCII number of a character
+            StringBuilder cipherText = new StringBuilder(); // encrypted plain text
+            int charNum;                                    // ASCII number of a character
 
             for (int i = 0; i < plainText.Length; i++)
             {
                 charNum = (int)plainText[i];
 
-                if (charNum < lower || charNum > upper)
+                if (charNum < _lower || charNum > _upper)
                     throw new ArgumentException("Message contains a character that is not allowed for encryption.");
 
-                charNum += offset; // ceasar slide
+                charNum += this._shift;
 
-                if (charNum < lower) { charNum += range; }
-                if (charNum > upper) { charNum -= range; }
+                if (charNum < _lower) { charNum += _range; }
+                if (charNum > _upper) { charNum -= _range; }
 
-                sb.Append((char)charNum);
+                cipherText.Append((char)charNum);
             }
 
-            return sb.ToString();
+            return cipherText.ToString();
         }
 
+
         /// <summary>
-        ///     Decrypts using the chosen offset value.
+        ///     Decrypts using the chosen shift value.
         /// </summary>
         /// <param name="cipherText">cipher text message</param>
         /// <returns>A string that is the message decrypted.</returns>
         public string Decrypt(string cipherText)
         {
-            StringBuilder sb = new StringBuilder();
-            int charNum; // ASCII number of a character
+            StringBuilder plainText = new StringBuilder(); // decrypted cipher text
+            int charNum;                                   // ASCII number of a character
 
             for (int i = 0; i < cipherText.Length; i++)
             {
                 charNum = (int)cipherText[i];
 
-                if (charNum < lower || charNum > upper)
+                if (charNum < _lower || charNum > _upper)
                     throw new ArgumentException("Encrypted message contains a character that is not allowed for decryption.");
 
-                charNum -= offset; // ceasar slide
+                charNum -= this._shift;
 
-                if (charNum < lower) { charNum += range; }
-                if (charNum > upper) { charNum -= range; }
+                if (charNum < _lower) { charNum += _range; }
+                if (charNum > _upper) { charNum -= _range; }
 
-                sb.Append((char)charNum);
+                plainText.Append((char)charNum);
             }
 
-            return sb.ToString();
+            return plainText.ToString();
         }
 
 
         /// <summary>
-        ///     Change the amount of encrypt/decrypt shift.
+        ///     Changes the amount of encrypt/decrypt shift.
         ///     An integer value from 1 to 94 (inclusive).
         /// </summary>
-        /// <param name="offset">Amount that the message letters shift when encrypted.</param>
-        public void ChangeOffset(int offset)
+        /// <param name="shift">the amount of message character offset when encrypted.</param>
+        public void ChangeShift(int shift)
         {
-            this.offset = offset;
+            this._shift = shift;
         }
 
     }
