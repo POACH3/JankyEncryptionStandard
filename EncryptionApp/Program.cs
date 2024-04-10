@@ -2,7 +2,7 @@
 /// 
 /// Author:       Trenton Stratton
 /// Date started: 23-MAR-2024
-/// Last updated: 24-MAR-2024
+/// Last updated: 31-MAR-2024
 ///  
 /// Notes:
 ///     Need to create a menu to select
@@ -17,9 +17,6 @@ using System.Transactions;
 
 string userCont = "";
 bool continueRun = true;
-
-//Console.WriteLine("CEASAR CIPHER");
-//CeasarCipher ceasar = new CeasarCipher();
 
 //Console.WriteLine("RSA");
 //RSA rsa = new RSA();
@@ -48,18 +45,24 @@ Console.WriteLine(aes.GetKey("hex"));
 Console.WriteLine(aes.GetKey("base64"));
 
 
+
+
+
+
 while (continueRun)
 {
     // === AES STUFF ===
 
+    Console.WriteLine();
+    Console.WriteLine("\nEnter a message: ");
+    string plainText = Console.ReadLine();
+    Console.WriteLine();
 
+    string cipherText = aes.Encrypt(plainText);
+    Console.WriteLine("ENCRYPTED:  " + cipherText);
 
-
-
-
-
-
-
+    string decipherText = aes.Decrypt(cipherText);
+    Console.WriteLine("DECRYPTED:  " + decipherText);
 
     // === RSA STUFF ===
 
@@ -123,16 +126,27 @@ while (continueRun)
 
     // === CEASAR CIPHER STUFF ===
 
-    //Console.WriteLine("\nEnter an encryption value (1-90): ");
+    //Console.WriteLine("CEASAR CIPHER");
+
+    //Console.WriteLine("\nEnter an encryption value (1-94): ");
     //int offset = int.Parse(Console.ReadLine());
 
-    //Console.WriteLine("Enter a message to encrypt: ");
-    //string message = Console.ReadLine();
+    //try
+    //{
+    //    CeasarCipher ceasar = new CeasarCipher(offset);
 
-    //string encryptedMessage = ceasar.Encrypt(offset, message);
+    //    Console.WriteLine("Enter a message to encrypt: ");
+    //    string message = Console.ReadLine();
 
-    //Console.WriteLine("\nEncrypted: " + encryptedMessage);
-    //Console.WriteLine("Decrypted: " + ceasar.Decrypt(offset, encryptedMessage));
+    //    string encryptedMessage = ceasar.Encrypt(message);
+
+    //    Console.WriteLine("\nEncrypted: " + encryptedMessage);
+    //    Console.WriteLine("Decrypted: " + ceasar.Decrypt(encryptedMessage));
+    //}
+    //catch (Exception ex)
+    //{
+    //    Console.WriteLine(ex.Message);
+    //}
 
 
     //while (userCont != "Y" || userCont != "N" || userCont != "y" || userCont != "n")
