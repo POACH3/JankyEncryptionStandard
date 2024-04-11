@@ -6,7 +6,7 @@ This is intended to be used along side another program, so it is small and simpl
 ## Implemented Features
 - Ceasar Cipher - shift selection, encrypt, decrypt
 - RSA - key generation, use keys from another source, encrypt, decrypt
-- AES - key generation, encrypt, decrypt (encrypt/decrypt GUI functionality works, but the AES class does not correctly encrypt)
+- AES - key generation, encrypt, decrypt
 - Light, dark, and night modes 
 
 ## Planned Features

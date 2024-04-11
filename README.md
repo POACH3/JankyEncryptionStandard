@@ -15,12 +15,12 @@ The intent of JES is to provide some familiarity with methods of encryption.
 - Ceasar Cipher
 - Rivest-Shamir-Adleman (RSA)         (needs some work)
 - Advanced Encryption Standard (AES)
-
->There is a console app as well as a GUI (console app is being used for testing, GUI is a work in progress)
  
 # Future additions
 **Depending on how ambitious I feel, I may attempt the following:**
 
 - Elliptic-curve Cryptography (ECC)
+- Digital signature
+- Post-quantum cryptographic scheme (Kyber, Dilithium, or Falcon)
 - Audio encryption
 - Steganography
