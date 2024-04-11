@@ -101,7 +101,7 @@ namespace Encrypt
         /// <summary>
         ///     Generates an AES key of the number of bits specified.
         /// </summary>
-        /// <param name="numBits"></param>
+        /// <param name="numBits">Number of bits the key has.</param>
         public AES(int numBits)
         {
             //if (not a valid encryption level) {
@@ -119,7 +119,7 @@ namespace Encrypt
         /// <summary>
         ///     Accepts a prior generated AES key of a valid number of bits.
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="key">The key represented as a UTF-8 string</param>
         public AES(string key)
         {
             //if (not a valid key) {
@@ -134,8 +134,7 @@ namespace Encrypt
         /// <summary>
         ///     Parameter is 128, 192, 256.
         /// </summary>
-        /// <param name="numBits"></param>
-        /// <returns></returns>
+        /// <param name="numBits">Number of bits the key has</param>
         public void GenerateNewKey(int numBits)
         {
             byte[] randomBytes = new byte[numBits / 8];
@@ -158,7 +157,7 @@ namespace Encrypt
         ///     hexadecimal string, or Base64 string respectively.
         /// </summary>
         /// <param name="format"></param>
-        /// <returns></returns>
+        /// <returns>Returns the key as an object</returns>
         /// <exception cref="ArgumentException"></exception>
         public object GetKey(string format)
         {
@@ -284,7 +283,7 @@ namespace Encrypt
         ///         5. repeat 2-4 with each state array created from the plain text
         /// </summary>
         /// <param name="plainTextBytes"></param>
-        /// <returns></returns>
+        /// <returns>Encrypted byte array</returns>
         public byte[] Encrypt(byte[] plainTextBytes)
         {
             ArrayList stateArrays = SubdivideData(plainTextBytes);    // data represented as bytes broken into 16 byte matrices
@@ -323,7 +322,7 @@ namespace Encrypt
         ///     Encrypts a UTF-8 string, returning it as a Base64 string.  
         /// </summary>
         /// <param name="plainText"></param>
-        /// <returns></returns>
+        /// <returns>Encrypted (Base64) text.</returns>
         public string Encrypt(string plainText)
         {
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
@@ -335,9 +334,8 @@ namespace Encrypt
         /// <summary>
         ///     Decrypts a byte array, returning it as a byte array.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="cipherText"></param>
-        /// <returns></returns>
+        /// <param name="cipherText">The cipher text to be decrypted.</param>
+        /// <returns>An array of bytes.</returns>
         public byte[] Decrypt(byte[] cipherTextBytes)
         {
             ArrayList stateArrays = SubdivideData(cipherTextBytes);   // data represented as bytes broken into 16 byte matrices
@@ -374,8 +372,8 @@ namespace Encrypt
         /// <summary>
         ///     Decrypts a Base64 string, returning it as a UTF-8 string.
         /// </summary>
-        /// <param name="cipherText"></param>
-        /// <returns></returns>
+        /// <param name="cipherText">The cipher text to be decrypted.</param>
+        /// <returns>Cipher text</returns>
         public string Decrypt(string cipherText)
         {
             byte[] cipherTextBytes = Convert.FromBase64String(cipherText);
@@ -388,8 +386,8 @@ namespace Encrypt
         ///     XORs each byte of the provided state array with each
         ///     byte of the current round key.
         /// </summary>
-        /// <param name="roundNumber"></param>
-        /// <param name="stateArray"></param>
+        /// <param name="roundNumber">The number of the current round.</param>
+        /// <param name="stateArray">The 4x4 matrix being encrypted.</param>
         /// <returns></returns>
         private byte[,] AddRoundKey(int roundNumber, byte[,] stateArray)
         {
@@ -410,7 +408,7 @@ namespace Encrypt
         ///     Padding (space characters) is added to the final 
         ///     state array if it is not a multiple of 16.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An ArrayList of the subdivided data.</returns>
         private ArrayList SubdivideData(byte[] dataBytes)
         {
             ArrayList dividedData = new ArrayList();
@@ -460,7 +458,7 @@ namespace Encrypt
         ///     Turns a byte array of 16 elements into a 4x4 matrix.
         /// </summary>
         /// <param name="bytes"></param>
-        /// <returns></returns>
+        /// <returns>The data arranged in a 4x4 matrix.</returns>
         private byte[,] CreateStateArray(byte[] bytes)
         {
             byte[,] stateBlock = new byte[4,4];
