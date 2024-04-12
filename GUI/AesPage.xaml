@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GUI.AesPage"
-             Title="AES">
+             Title="">
 
     <ContentPage.Resources>
         <Style TargetType="Button">
@@ -62,6 +62,18 @@
             Value="14"/>
         </Style>
 
+        <Style TargetType="Picker">
+            <Setter
+                Property="SelectedIndex"
+                Value="2"/>
+            <Setter
+                Property="BackgroundColor"
+                Value="Gray"/>
+                <Setter
+                Property="TextColor"
+                Value="{DynamicResource PrimaryText}"/>
+        </Style>
+
         <Style TargetType="Shell">
             <Setter
             Property="BackgroundColor"
@@ -101,15 +113,6 @@
             HeightRequest="0"
             BackgroundColor="Black"/>
     </Shell.TitleView>
-
-
-    <!--<VerticalStackLayout VerticalOptions="Center">
-        <Label 
-            Text="Not yet implemented."
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>-->
-
 
     <Grid x:Name="mainContainer" RowDefinitions="40,30,1*,80,30,1*" ColumnDefinitions="1*" Padding="5">
 
@@ -153,11 +156,12 @@
                 <!--<Entry
                     x:Name="keyTypeEntry"
                     Text=""/>-->
-                <Picker x:Name="picker">
+                <Picker x:Name="picker" SelectedItem="256" WidthRequest="100">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:Int32}">
                             <x:Int32>128</x:Int32>
                             <x:Int32>192</x:Int32>
+                            <x:Int32>256</x:Int32>
                         </x:Array>
                     </Picker.ItemsSource>
                 </Picker>

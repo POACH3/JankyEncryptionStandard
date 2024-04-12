@@ -195,7 +195,7 @@ namespace Encrypt
 
             byte[] roundConstants = new byte[] { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36, 0x6C, 0xD8, 0xAB, 0x4D };
             
-            for (int round = 0; round < _numRounds+1; round++)
+            for (int round = 0; round < _numRounds; round++)
             {
                 // key subdivision
                 for (int i = 0; i < 4; i++)
@@ -286,19 +286,19 @@ namespace Encrypt
         /// <returns>Encrypted byte array</returns>
         public byte[] Encrypt(byte[] plainTextBytes)
         {
-            ArrayList stateArrays = SubdivideData(plainTextBytes);    // data represented as bytes broken into 16 byte matrices
+            ArrayList stateArrays = SubdivideData(plainTextBytes);     // data represented as bytes broken into 16 byte matrices
             
 
             foreach (byte[,] stateArray in stateArrays)
             {
-                AddRoundKey(0, stateArray);                           // add key to plain text before beginning rounds
+                AddRoundKey(1, stateArray);                            // add key to plain text before beginning rounds
 
-                for (int i = 0; i < _numRounds; i++)
+                for (int i = 2; i < _numRounds+1; i++)
                 {
                     SubBytes(stateArray, false);
                     ShiftRows(stateArray, false);
-                    if (i != _numRounds - 1) { MixColumns(stateArray); } // last round doesn't mix columns
-                    AddRoundKey(i+1, stateArray);
+                    if (i != _numRounds+1) { MixColumns(stateArray); } // last round doesn't mix columns
+                    AddRoundKey(i, stateArray);
                 }
             }
 
@@ -344,12 +344,12 @@ namespace Encrypt
             {
                 AddRoundKey(_roundKeys.Length - 1, stateArray);       // add last key to cipher text before beginning rounds
 
-                for (int i = _numRounds; i > 0; i--)                     // go through round keys in reverse order
+                for (int i = _numRounds-1; i > 0; i--)                     // go through round keys in reverse order
                 {
                     SubBytes(stateArray, true);
                     ShiftRows(stateArray, true);
-                    if (i != _numRounds - 1) { MixColumns(stateArray); } // last round doesn't mix columns
-                    AddRoundKey(i-1, stateArray);
+                    if (i != _numRounds - 2) { MixColumns(stateArray); } // last round doesn't mix columns
+                    AddRoundKey(i, stateArray);
                 }
             }
 
@@ -395,7 +395,7 @@ namespace Encrypt
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    stateArray[i,j] = (byte)(stateArray[i,j] ^ _roundKeys[roundNumber][(i * 4) + j]);
+                    stateArray[i,j] = (byte)(stateArray[i,j] ^ _roundKeys[roundNumber-1][(i * 4) + j]);
                 }
             }
 
