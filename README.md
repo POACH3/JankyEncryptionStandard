@@ -15,12 +15,13 @@ The intent of JES is to provide some familiarity with methods of encryption.
 - Ceasar Cipher
 - Rivest-Shamir-Adleman (RSA)         (needs some work)
 - Advanced Encryption Standard (AES)
+- Morse Code
  
 # Future additions
 **Depending on how ambitious I feel, I may attempt the following:**
 
 - Elliptic-curve Cryptography (ECC)
 - Digital signature
-- Post-quantum cryptographic scheme (Kyber, Dilithium, or Falcon)
+- A post-quantum cryptographic scheme (Kyber, Dilithium, or Falcon)
 - Audio encryption
 - Steganography

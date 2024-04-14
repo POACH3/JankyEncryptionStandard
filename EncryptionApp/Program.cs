@@ -38,11 +38,11 @@ bool continueRun = true;
 //Console.WriteLine("  q: " + q);
 //Console.WriteLine("  totient: " + phi);
 
-Console.WriteLine("AES");
-AES aes = new AES(128);
-Console.WriteLine(aes.GetKey("bytes").ToString());
-Console.WriteLine(aes.GetKey("hex"));
-Console.WriteLine(aes.GetKey("base64"));
+//Console.WriteLine("AES");
+//AES aes = new AES(128);
+//Console.WriteLine(aes.GetKey("bytes").ToString());
+//Console.WriteLine(aes.GetKey("hex"));
+//Console.WriteLine(aes.GetKey("base64"));
 
 
 
@@ -51,18 +51,39 @@ Console.WriteLine(aes.GetKey("base64"));
 
 while (continueRun)
 {
-    // === AES STUFF ===
+    // === MORSE STUFF ===
+
+    Console.WriteLine();
+    Console.WriteLine("\nEnter a speed: ");
+    int speed = int.Parse(Console.ReadLine());
+    Morse morse = new Morse(600, speed, false);
 
     Console.WriteLine();
     Console.WriteLine("\nEnter a message: ");
     string plainText = Console.ReadLine();
     Console.WriteLine();
 
-    string cipherText = aes.Encrypt(plainText);
+    string cipherText = morse.Encrypt(plainText);
     Console.WriteLine("ENCRYPTED:  " + cipherText);
 
-    string decipherText = aes.Decrypt(cipherText);
+    string decipherText = morse.Decrypt(cipherText);
     Console.WriteLine("DECRYPTED:  " + decipherText);
+
+    morse.PlayMessageTones(cipherText);
+
+
+    // === AES STUFF ===
+
+    //Console.WriteLine();
+    //Console.WriteLine("\nEnter a message: ");
+    //string plainText = Console.ReadLine();
+    //Console.WriteLine();
+
+    //string cipherText = aes.Encrypt(plainText);
+    //Console.WriteLine("ENCRYPTED:  " + cipherText);
+
+    //string decipherText = aes.Decrypt(cipherText);
+    //Console.WriteLine("DECRYPTED:  " + decipherText);
 
     // === RSA STUFF ===
 

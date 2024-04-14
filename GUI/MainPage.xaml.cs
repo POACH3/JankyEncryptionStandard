@@ -46,6 +46,12 @@ namespace GUI
             await Navigation.PushAsync(ceasarCipherPage, false);
         }
 
+        public async void GoToMorseCodePage(object sender, EventArgs e)
+        {
+            var morseCodePage = new MorsePage();
+            await Navigation.PushAsync(morseCodePage, false);
+        }
+
         public async void GoToRsaPage(object sender, EventArgs e)
         {
             var rsaPage = new RsaPage();

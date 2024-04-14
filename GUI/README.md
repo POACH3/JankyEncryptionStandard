@@ -7,6 +7,7 @@ This is intended to be used along side another program, so it is small and simpl
 - Ceasar Cipher - shift selection, encrypt, decrypt
 - RSA - key generation, use keys from another source, encrypt, decrypt
 - AES - key generation, encrypt, decrypt
+- Morse Code - encrypt, decrypt, play Morse message
 - Light, dark, and night modes 
 
 ## Planned Features

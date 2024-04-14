@@ -18,3 +18,8 @@ Currently this generates primes of up to 10 digits long, which can create 64-bit
 Advanced Encryption Standard (originally Rijndael) is a symmetric encryption. A 128, 192, or 256 key is randomly generated. This key is expanded into a set of "round keys" which are what is used to encrypt the data. Data subdivided into groups of 16 bytes which is organized into a 4x4 matrix. Each group of 16 bytes then undergoes multiple rounds of substitution (for a byte value in a predefined table), row shifting, column mixing, and is XORed with a round key.
 ## Implementation
 This is fully functional. 128, 192, and 256 bit keys can be generated or a prior generated key can be used. Byte arrays or UTF-8 character strings can be encrypted.
+
+
+# Morse Code
+## Implementation
+This is fully functional, though more will be added. Plain text can be converted to Morse Code and then played. The tone frequency and speed (in words per minute) can be selected. Eventually the sound quality will be improved and the option of Farnsworth Timing provided.

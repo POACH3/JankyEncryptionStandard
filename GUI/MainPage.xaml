@@ -92,6 +92,7 @@
     <ContentPage.MenuBarItems>
         <MenuBarItem Text="Encryption">
             <MenuFlyoutItem Text="Ceasar Cipher" Clicked="GoToCeasarCipherPage"/>
+            <MenuFlyoutItem Text="Morse Code" Clicked="GoToMorseCodePage"/>
             <MenuFlyoutItem Text="RSA" Clicked="GoToRsaPage"/>
             <MenuFlyoutItem Text="AES" Clicked="GoToAesPage"/>
         </MenuBarItem>
