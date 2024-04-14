@@ -9,6 +9,8 @@ Solution:      JankyEncryptionStandard
 # Janky Encryption Standard (JES)
 The intent of JES is to provide some familiarity with methods of encryption.
 
+A simple GUI provides the functionality of the encryption schemes that have been experimented with.
+
 # Current functionality
 **JES has terrible implementations of the following:**
 
