@@ -4,14 +4,33 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="GUI.Resources.Themes.Dark">
 
-    <Color x:Key="MenuBarBackground">#000000</Color>
-    <Color x:Key="MenuBarText">#E5E5E5</Color>
-    <!--<Color x:Key="MenuBarHighlight">#A5A5A5</Color>-->
+
     <Color x:Key="MenuBarHighlight">#FFA5A5</Color>
+
+    
+    
+    <Color x:Key="MenuBarBackground">#000000</Color>
+    <Color x:Key="MenuBarBack">#FFFFFF</Color>
+    <Color x:Key="MenuBarText">#FFFFFF</Color>
 
     <Color x:Key="PageBackground">#222222</Color>
 
     <Color x:Key="PrimaryText">#E5E5E5</Color>
-    <Color x:Key="EditorBackground">#444444</Color>
+    <Color x:Key="EditorBackground">#333333</Color>
+    <Color x:Key="EditorBorder">#555555</Color>
+    
+
+    <Color x:Key="ButtonBackground">#000000</Color>
+    <Color x:Key="ButtonText">#E5E5E5</Color>
+    <Color x:Key="ButtonBackgroundHover">#9BA3B0</Color>
+    <Color x:Key="ButtonTextHover">#000000</Color>
+    <Color x:Key="ButtonBackgroundPressed">#333333</Color>
+    <Color x:Key="ButtonTextPressed">#FFFFFF</Color>
+    <Color x:Key="ButtonBorder">#000000</Color>
+
+    <Color x:Key="SliderMin">#AAAAAA</Color>
+    <Color x:Key="SliderMax">#666666</Color>
+
+    <Color x:Key="Transparent">Transparent</Color>
 
 </ResourceDictionary>

@@ -14,11 +14,59 @@
 
     
     <Color x:Key="MenuBarBackground">#111111</Color>
+    <Color x:Key="MenuBarBack">#AA0000</Color>
     <Color x:Key="MenuBarText">#AA0000</Color>
 
     <Color x:Key="PageBackground">#000000</Color>
 
     <Color x:Key="PrimaryText">#AA0000</Color>
-    <Color x:Key="EditorBackground">#550000</Color>
+    <Color x:Key="EditorBackground">#110000</Color>
+    <Color x:Key="EditorBorder">#AA0000</Color>
+
+    <Color x:Key="ButtonBackground">#000000</Color>
+    <Color x:Key="ButtonText">#AA0000</Color>
+    <Color x:Key="ButtonBackgroundHover">#330000</Color>
+    <Color x:Key="ButtonTextHover">#AA0000</Color>
+    <Color x:Key="ButtonBackgroundPressed">#880000</Color>
+    <Color x:Key="ButtonTextPressed">#000000</Color>
+    <Color x:Key="ButtonBorder">#AA0000</Color>
+
+
+    <Color x:Key="SliderMin">#AA0000</Color>
+    <Color x:Key="SliderMax">#550000</Color>
+
+    <Color x:Key="Transparent">Transparent</Color>
+
+    <Style TargetType="Button">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1" />
+                        </VisualState.Setters>
+                    </VisualState>
+
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.95" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundPressed}" />
+                            <Setter Property="TextColor" Value="{DynamicResource ButtonTextPressed}" />
+                        </VisualState.Setters>
+                    </VisualState>
+
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <!--<Setter Property="Scale" Value="1.1" />-->
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundHover}" />
+                            <Setter Property="TextColor" Value="{DynamicResource ButtonTextHover}" />
+                        </VisualState.Setters>
+                    </VisualState>
+
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

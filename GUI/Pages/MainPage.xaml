@@ -1,8 +1,109 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GUI.MainPage">
+             x:Class="GUI.MainPage"
+             BackgroundColor="{DynamicResource PageBackground}"
+             Shell.ForegroundColor="{DynamicResource ButtonText}">
 
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter
+                Property="BackgroundColor"
+                Value="{DynamicResource ButtonBackground}"/>
+            <Setter
+                Property="TextColor"
+                Value="{DynamicResource ButtonText}"/>
+            <Setter
+                Property="BorderColor"
+                Value="{DynamicResource ButtonText}"/>
+            <Setter
+                Property="BorderWidth"
+                Value="1"/>
+            <Setter
+                Property="CornerRadius"
+                Value="1"/>
+            <Setter
+                Property="HeightRequest"
+                Value="30"/>
+        </Style>
+
+        <Style TargetType="Border">
+            <Setter
+            Property="Stroke"
+            Value="{DynamicResource ButtonText}"/>
+            <Setter
+            Property="StrokeThickness"
+            Value=".8"/>
+        </Style>
+
+        <Style TargetType="ContentPage">
+            <Setter
+            Property="BackgroundColor"
+            Value="{DynamicResource PageBackground}"/>
+        </Style>
+
+        <Style TargetType="Editor">
+            <Setter
+            Property="BackgroundColor"
+            Value="{DynamicResource EditorBackground}"/>
+            <Setter
+            Property="TextColor"
+            Value="{DynamicResource ButtonText}"/>
+        </Style>
+
+        <Style TargetType="Entry">
+            <Setter
+            Property="BackgroundColor"
+            Value="{DynamicResource EditorBackground}"/>
+            <Setter
+            Property="TextColor"
+            Value="{DynamicResource PrimaryText}"/>
+            <Setter
+            Property="HeightRequest"
+            Value="32"/>
+        </Style>
+
+        <Style TargetType="Grid">
+            <Setter
+            Property="BackgroundColor"
+            Value="{DynamicResource PageBackground}"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter
+            Property="BackgroundColor"
+            Value="{DynamicResource Transparent}"/>
+            <Setter
+            Property="TextColor"
+            Value="{DynamicResource PrimaryText}"/>
+            <Setter
+            Property="FontSize"
+            Value="14"/>
+        </Style>
+
+        <Style TargetType="Picker">
+            <Setter
+            Property="SelectedIndex"
+            Value="2"/>
+            <Setter
+            Property="BackgroundColor"
+            Value="{DynamicResource EditorBackground}"/>
+            <Setter
+            Property="TextColor"
+            Value="{DynamicResource ButtonText}"/>
+        </Style>
+
+        <Style TargetType="Shell">
+            <Setter
+                Property="BackgroundColor"
+                Value="{DynamicResource Transparent}"/>
+            <Setter
+                Property="TitleColor"
+                Value="Red"/>
+        </Style>
+
+    </ContentPage.Resources>
+    
     <!--<ContentPage.Resources>
         <Style TargetType="Button">
             <Setter
@@ -79,7 +180,7 @@
            HeightRequest="0"
            BackgroundColor="Black"/>
     </Shell.TitleView>
-    
+
     <!--NOTES:
     reduce size of menu bar
     change font of menu bar

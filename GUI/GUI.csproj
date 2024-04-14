@@ -67,43 +67,40 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="AboutJesPage.xaml.cs">
+	  <Compile Update="Pages\AboutJesPage.xaml.cs">
 	    <DependentUpon>AboutJesPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="CeasarCipherPage.xaml.cs">
+	  <Compile Update="Pages\CeasarCipherPage.xaml.cs">
 	    <DependentUpon>CeasarCipherPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="AesPage.xaml">
+	  <MauiXaml Update="Pages\AesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="CeasarCipherPage.xaml">
+	  <MauiXaml Update="Pages\CeasarCipherPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="EncryptionInfoPage.xaml">
+	  <MauiXaml Update="Pages\EncryptionInfoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="HelpPage.xaml">
+	  <MauiXaml Update="Pages\HelpPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="AboutJesPage.xaml">
+	  <MauiXaml Update="Pages\AboutJesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MorsePage.xaml">
+	  <MauiXaml Update="Pages\MorsePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Styles\CustomStyles.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Resources\Themes\Default.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Resources\Themes\NightGreen.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="RsaPage.xaml">
+	  <MauiXaml Update="Pages\RsaPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Themes\Dark.xaml">

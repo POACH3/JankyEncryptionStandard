@@ -13,13 +13,34 @@ public partial class RsaPage : ContentPage
 	{
 		InitializeComponent();
         //BindingContext = this;
-        GenerateNewKey();
 	}
 
 
+    private void OnLoad(object sender, EventArgs e)
+    {
+        GenerateNewKey();
+    }
+
+    public async void GoToHelpPage(object sender, EventArgs e)
+    {
+        var helpPage = new HelpPage();
+        await Navigation.PushAsync(helpPage, true);
+    }
+
+    public async void GoToEncryptionInfoPage(object sender, EventArgs e)
+    {
+        var encryptionInfoPage = new EncryptionInfoPage();
+        await Navigation.PushAsync(encryptionInfoPage, true);
+    }
+
+    public async void GoToAboutJesPage(object sender, EventArgs e)
+    {
+        var aboutJesPage = new AboutJesPage();
+        await Navigation.PushAsync(aboutJesPage, true);
+    }
 
 
-    private void GenerateNewKey()
+    private async void GenerateNewKey()
     {
         _rsa = new RSA();
         _keys = _rsa.Keys();
@@ -39,7 +60,7 @@ public partial class RsaPage : ContentPage
     {
         try
         {
-            cipherTextEditor.Text = _rsa.Encrypt(_keys[0], _keys[2], plainTextEditor.Text);
+            ciphertextEditor.Text = _rsa.Encrypt(_keys[0], _keys[2], plaintextEditor.Text);
         }
         catch (Exception ex)
         {
@@ -51,7 +72,7 @@ public partial class RsaPage : ContentPage
     {
         try
         {
-            plainTextEditor.Text = _rsa.Decrypt(_keys[1], _keys[2], cipherTextEditor.Text);
+            plaintextEditor.Text = _rsa.Decrypt(_keys[1], _keys[2], ciphertextEditor.Text);
         }
         catch (Exception ex)
         {
@@ -59,37 +80,6 @@ public partial class RsaPage : ContentPage
         }
     }
 
-
-    /// <summary>
-    ///     Event handler that changes the button color to 
-    ///     show it is being clicked.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    public void OnPressed(object sender, EventArgs e)
-    {
-        if (sender is Button button)
-        {
-            button.BackgroundColor = Color.FromRgb(225, 25, 25);
-        }
-    }
-
-
-    /// <summary>
-    ///     Event handler that changes the button color back
-    ///     to the original color after having been clicked on.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    public void OnReleased(object sender, EventArgs e)
-    {
-        if (sender is Button button)
-        {
-            //button.BackgroundColor = Color.FromRgb(100, 100, 100);
-            button.BackgroundColor = default;
-            //button.BackgroundColor = null;
-        }
-    }
 
     public void OnClickedShowHideKeyInfoBtn(object sender, EventArgs e)
     {
@@ -125,24 +115,24 @@ public partial class RsaPage : ContentPage
 
     }
 
-    public async void OnClickedCopyPlainTextBtn(object sender, EventArgs e)
+    public async void OnClickedCopyPlaintextBtn(object sender, EventArgs e)
     {
-        await Clipboard.SetTextAsync(plainTextEditor.Text);
+        await Clipboard.SetTextAsync(plaintextEditor.Text);
     }
 
-    public async void OnClickedCopyCipherTextBtn(object sender, EventArgs e)
+    public async void OnClickedCopyCiphertextBtn(object sender, EventArgs e)
     {
-        await Clipboard.SetTextAsync(cipherTextEditor.Text);
+        await Clipboard.SetTextAsync(ciphertextEditor.Text);
     }
 
-    private async void OnClickedPastePlainTextBtn(object sender, EventArgs e)
+    private async void OnClickedPastePlaintextBtn(object sender, EventArgs e)
     {
-        plainTextEditor.Text = await Clipboard.GetTextAsync();
+        plaintextEditor.Text = await Clipboard.GetTextAsync();
     }
 
-    private async void OnClickedPasteCipherTextBtn(object sender, EventArgs e)
+    private async void OnClickedPasteCiphertextBtn(object sender, EventArgs e)
     {
-        cipherTextEditor.Text = await Clipboard.GetTextAsync();
+        ciphertextEditor.Text = await Clipboard.GetTextAsync();
     }
 
 
@@ -171,7 +161,7 @@ public partial class RsaPage : ContentPage
     private void OnClickedSystemMode(object sender, EventArgs e)
     {
         //Application.Current.UserAppTheme = AppTheme.Unspecified;
-        ThemeManager.SetTheme(nameof(GUI.Resources.Themes.Default));
+        ThemeManager.SetTheme(nameof(GUI.Resources.Themes.Dark));
     }
 
     private void OnClickedLightMode(object sender, EventArgs e)
@@ -199,12 +189,6 @@ public partial class RsaPage : ContentPage
     }
 
 
-
-    public async void GoToHelpPage(object sender, EventArgs e)
-    {
-        //var helpPage = new HelpPage();
-        //await Navigation.PushAsync(helpPage, false);
-    }
 
     private void MenuFlyoutItem_Clicked(object sender, EventArgs e)
     {

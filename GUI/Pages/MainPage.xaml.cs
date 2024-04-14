@@ -77,7 +77,6 @@ namespace GUI
             await Navigation.PushAsync(aboutJesPage, false);
         }
 
-
         public async void GoToEncryptionInfoPage(object sender, EventArgs e)
         {
             var encryptionInfoPage = new EncryptionInfoPage();
@@ -110,7 +109,7 @@ namespace GUI
         private void OnClickedSystemMode(object sender, EventArgs e)
         {
             //Application.Current.UserAppTheme = AppTheme.Unspecified;
-            ThemeManager.SetTheme(nameof(GUI.Resources.Themes.Default));
+            ThemeManager.SetTheme(nameof(GUI.Resources.Themes.Dark));
         }
 
         private void OnClickedLightMode(object sender, EventArgs e)

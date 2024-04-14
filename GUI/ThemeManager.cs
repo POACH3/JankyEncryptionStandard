@@ -1,11 +1,4 @@
-﻿using Microsoft.UI.Xaml.Markup;
-using Microsoft.UI.Xaml.Resources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.Maui.Controls.Device;
+﻿
 using Themes = GUI.Resources.Themes;
 
 namespace GUI
@@ -40,7 +33,7 @@ namespace GUI
                 //if (Application.Current.UserAppTheme == AppTheme.Unspecified)
                 if (Application.Current.PlatformAppTheme == AppTheme.Unspecified)
                 {
-                    selectedTheme = nameof(Themes.Light);
+                    selectedTheme = nameof(Themes.Dark);
                 }
                 //else if (Application.Current.UserAppTheme == AppTheme.Light)
                 else if (Application.Current.PlatformAppTheme == AppTheme.Light)
@@ -70,7 +63,7 @@ namespace GUI
 
         public static void SetTheme(string themeName)
         {
-            if (SelectedTheme == themeName) { return; }
+            //if (SelectedTheme == themeName) { return; } // something wrong saving theme change on dark mode
 
             var themeToBeApplied = _themesDictionary[themeName];
 

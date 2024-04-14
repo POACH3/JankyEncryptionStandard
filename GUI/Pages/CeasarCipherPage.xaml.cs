@@ -28,39 +28,6 @@ public partial class CeasarCipherPage : ContentPage
 
 
 
-
-    /// <summary>
-    ///     Event handler that changes the button color to 
-    ///     show it is being clicked.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    public void OnPressed(object sender, EventArgs e)
-    {
-        if (sender is Button button)
-        {
-            button.BackgroundColor = Color.FromRgb(225, 25, 25);
-        }
-    }
-
-
-    /// <summary>
-    ///     Event handler that changes the button color back
-    ///     to the original color after having been clicked on.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    public void OnReleased(object sender, EventArgs e)
-    {
-        if (sender is Button button)
-        {
-            //button.BackgroundColor = Color.FromRgb(100, 100, 100);
-            button.BackgroundColor = default;
-            //button.BackgroundColor = null;
-        }
-    }
-
-
     // --- OTHER ACTION HANDLERS ---
 
 
@@ -89,12 +56,12 @@ public partial class CeasarCipherPage : ContentPage
 
     private void OnClickedEncryptBtn(object sender, EventArgs e)
     {
-        cipherTextEditor.Text = _ceasarCipher.Encrypt(plainTextEditor.Text);
+        ciphertextEditor.Text = _ceasarCipher.Encrypt(plaintextEditor.Text);
     }
 
     private void OnClickedDecryptBtn(object sender, EventArgs e)
     {
-        plainTextEditor.Text = _ceasarCipher.Decrypt(cipherTextEditor.Text);
+        plaintextEditor.Text = _ceasarCipher.Decrypt(ciphertextEditor.Text);
     }
 
 
@@ -131,24 +98,24 @@ public partial class CeasarCipherPage : ContentPage
         
     }
 
-    public async void OnClickedCopyPlainTextBtn(object sender, EventArgs e)
+    public async void OnClickedCopyPlaintextBtn(object sender, EventArgs e)
     {
-        await Clipboard.SetTextAsync(plainTextEditor.Text);
+        await Clipboard.SetTextAsync(plaintextEditor.Text);
     }
 
-    public async void OnClickedCopyCipherTextBtn(object sender, EventArgs e)
+    public async void OnClickedCopyCiphertextBtn(object sender, EventArgs e)
     {
-        await Clipboard.SetTextAsync(cipherTextEditor.Text);
+        await Clipboard.SetTextAsync(ciphertextEditor.Text);
     }
 
-    private async void OnClickedPastePlainTextBtn(object sender, EventArgs e)
+    private async void OnClickedPastePlaintextBtn(object sender, EventArgs e)
     {
-        plainTextEditor.Text = await Clipboard.GetTextAsync();
+        plaintextEditor.Text = await Clipboard.GetTextAsync();
     }
 
-    private async void OnClickedPasteCipherTextBtn(object sender, EventArgs e)
+    private async void OnClickedPasteCiphertextBtn(object sender, EventArgs e)
     {
-        cipherTextEditor.Text = await Clipboard.GetTextAsync();
+        ciphertextEditor.Text = await Clipboard.GetTextAsync();
     }
 
 
@@ -174,4 +141,38 @@ public partial class CeasarCipherPage : ContentPage
         var encryptionInfoPage = new EncryptionInfoPage();
         await Navigation.PushAsync(encryptionInfoPage, false);
     }
+
+
+    private void OnClickedSystemMode(object sender, EventArgs e)
+    {
+        //Application.Current.UserAppTheme = AppTheme.Unspecified;
+        ThemeManager.SetTheme(nameof(GUI.Resources.Themes.Dark));
+    }
+
+    private void OnClickedLightMode(object sender, EventArgs e)
+    {
+        //Application.Current.UserAppTheme = AppTheme.Light;
+        ThemeManager.SetTheme("Light");
+    }
+
+    private void OnClickedDarkMode(object sender, EventArgs e)
+    {
+        //Application.Current.UserAppTheme = AppTheme.Dark;
+        ThemeManager.SetTheme(nameof(GUI.Resources.Themes.Dark));
+    }
+
+    private void OnClickedNightMode(object sender, EventArgs e)
+    {
+        //Application.Current.UserAppTheme = AppTheme.Unspecified;
+        //Application.Current.UserAppTheme = Application.Current.RequestedTheme;
+
+        //Preferences.Set("Theme", "Night");
+
+
+        ThemeManager.SetTheme(nameof(GUI.Resources.Themes.Night));
+
+    }
+
+
+
 }

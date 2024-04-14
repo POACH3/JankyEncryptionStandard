@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GUI.HelpPage"
+             BackgroundColor="{DynamicResource PageBackground}">
+
+    <ContentPage.Resources>
+        <Style TargetType="ContentPage">
+            <Setter
+            Property="BackgroundColor"
+            Value="{DynamicResource PageBackground}"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter
+            Property="BackgroundColor"
+            Value="{DynamicResource Transparent}"/>
+            <Setter
+            Property="TextColor"
+            Value="{DynamicResource PrimaryText}"/>
+            <Setter
+            Property="FontSize"
+            Value="14"/>
+        </Style>
+
+        <Style TargetType="VerticalStackLayout">
+            <Setter
+            Property="BackgroundColor"
+            Value="{DynamicResource PageBackground}"/>
+        </Style>
+    </ContentPage.Resources>
+    
+    <ContentPage.MenuBarItems>
+        <MenuBarItem Text="Settings">
+            <MenuFlyoutSubItem Text="Themes">
+                <MenuFlyoutItem Text="Auto"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Light Mode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Dark Mode"></MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Night Mode"></MenuFlyoutItem>
+            </MenuFlyoutSubItem>
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
+
+    <Shell.TitleView>
+        <Label
+            Text="Help"
+            HeightRequest="0"
+            BackgroundColor="Black"/>
+    </Shell.TitleView>
+
+    <Label 
+        Text="No."
+        VerticalOptions="Fill"
+        VerticalTextAlignment="Center"
+        HorizontalOptions="Center"
+        FontAttributes="Bold"/>
+
+</ContentPage>

@@ -1,30 +1,44 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GUI.EncryptionInfoPage">
+             x:Class="GUI.EncryptionInfoPage"
+             BackgroundColor="{DynamicResource PageBackground}">
+
+    <ContentPage.Resources>
+        <Style TargetType="ContentPage">
+            <Setter
+                Property="BackgroundColor"
+                Value="{DynamicResource Transparent}"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter
+                Property="BackgroundColor"
+                Value="{DynamicResource Transparent}"/>
+            <Setter
+                Property="TextColor"
+                Value="{DynamicResource PrimaryText}"/>
+            <Setter
+                Property="FontSize"
+                Value="14"/>
+        </Style>
+
+        <Style TargetType="VerticalStackLayout">
+            <Setter
+                Property="BackgroundColor"
+                Value="{DynamicResource Transparent}"/>
+        </Style>
+    </ContentPage.Resources>
 
     <ContentPage.MenuBarItems>
-        <MenuBarItem Text="Encryption">
-            <MenuFlyoutItem Text="Ceasar Cipher"/>
-            <MenuFlyoutItem Text="RSA"/>
-            <MenuFlyoutItem Text="AES"/>
-        </MenuBarItem>
-        <MenuBarItem Text="Export">
-        </MenuBarItem>
         <MenuBarItem Text="Settings">
-            <MenuFlyoutItem Text="Hide Key"></MenuFlyoutItem>
-            <MenuFlyoutSeparator/>
             <MenuFlyoutSubItem Text="Themes">
                 <MenuFlyoutItem Text="Auto"></MenuFlyoutItem>
                 <MenuFlyoutItem Text="Light Mode"></MenuFlyoutItem>
                 <MenuFlyoutItem Text="Dark Mode"></MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="Night Mode"></MenuFlyoutItem>
             </MenuFlyoutSubItem>
-        </MenuBarItem>
-        <MenuBarItem Text="Info">
-            <MenuFlyoutItem Text="Help" Clicked="GoToHelpPage"></MenuFlyoutItem>
-            <MenuFlyoutItem Text="Encryption Information"></MenuFlyoutItem>
-            <MenuFlyoutItem Text="About JES" Clicked="GoToAboutJesPage"></MenuFlyoutItem>
         </MenuBarItem>
     </ContentPage.MenuBarItems>
 

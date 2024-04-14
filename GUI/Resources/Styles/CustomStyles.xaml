@@ -30,24 +30,62 @@
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="BorderWidth" Value="1"/>
         <Setter Property="CornerRadius" Value="8"/>
-        <Setter Property="Padding" Value="14,10"/>
-        <Setter Property="MinimumHeightRequest" Value="44"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="MinimumHeightRequest" Value="30"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1" />
+                        </VisualState.Setters>
+                    </VisualState>
+
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.95" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundPressed}" />
+                            <Setter Property="TextColor" Value="{DynamicResource ButtonTextPressed}" />
+                        </VisualState.Setters>
+                    </VisualState>
+
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <!--<Setter Property="Scale" Value="1.1" />-->
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundHover}" />
+                            <Setter Property="TextColor" Value="{DynamicResource ButtonTextHover}" />
+                        </VisualState.Setters>
+                    </VisualState>
+
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+
+
+
+        <!--<Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
-                            <!--<Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />-->
+                            --><!--<Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />--><!--
                             <Setter Property="TextColor" Value="{DynamicResource Primary}" />
-                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}" />
+                            --><!--<Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}" />--><!--
+                            <Setter Property="BackgroundColor" Value="{DynamicResource MenuBarHighlight}" />
                         </VisualState.Setters>
                     </VisualState>
-                    <VisualState x:Name="PointerOver" />
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource Primary}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource MenuBarHighlight}" />
+                        </VisualState.Setters>
+                    </VisualState>
                 </VisualStateGroup>
             </VisualStateGroupList>
-        </Setter>
+        </Setter>-->
     </Style>
 
     <Style TargetType="CheckBox">
@@ -90,7 +128,7 @@
     </Style>
 
     <Style TargetType="Editor">
-        <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
+        <Setter Property="TextColor" Value="{DynamicResource ButtonText}" />
         <!--<Setter Property="BackgroundColor" Value="Transparent" />-->
         <Setter Property="BackgroundColor" Value="{DynamicResource EditorBackground}" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
@@ -118,8 +156,8 @@
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="MinimumHeightRequest" Value="20"/>
+        <Setter Property="MinimumWidthRequest" Value="20"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -205,7 +243,7 @@
     </Style>
 
     <Style TargetType="Picker">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
         <Setter Property="TitleColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
@@ -412,7 +450,7 @@
         <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />-->
 
         <Setter Property="Shell.BackgroundColor" Value="{DynamicResource MenuBarBackground}" />
-        <Setter Property="Shell.ForegroundColor" Value="{DynamicResource MenuBarHighlight}" />
+        <Setter Property="Shell.ForegroundColor" Value="{DynamicResource MenuBarBack}" />
         <Setter Property="Shell.TitleColor" Value="{DynamicResource MenuBarText}" />
         <Setter Property="Shell.DisabledColor" Value="{DynamicResource MenuBarHighlight}" />
         <Setter Property="Shell.UnselectedColor" Value="{DynamicResource MenuBarHighlight}" />

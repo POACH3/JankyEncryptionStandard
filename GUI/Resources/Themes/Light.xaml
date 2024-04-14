@@ -20,7 +20,8 @@
 
 
     <Color x:Key="MenuBarBackground">#9BA3B0</Color>
-    <Color x:Key="MenuBarText">#333333</Color>
+    <Color x:Key="MenuBarText">#000000</Color>
+    <Color x:Key="MenuBarBack">#FFFFFF</Color>
     <!--<Color x:Key="MenuBarHighlight">#A5A5A5</Color>-->
     <Color x:Key="MenuBarHighlight">#FFA5A5</Color>
 
@@ -28,9 +29,18 @@
 
     <Color x:Key="PrimaryText">#000000</Color>
     <Color x:Key="EditorBackground">#E5E5E5</Color>
-   
-    <Color x:Key="ButtonBackground">#E5E5E5</Color>
+    <Color x:Key="EditorBorder">#666666</Color>
+
+    <Color x:Key="ButtonBackground">#A6B1B9</Color>
     <Color x:Key="ButtonText">#000000</Color>
+    <Color x:Key="ButtonBackgroundHover">#9BA3B0</Color>
+    <Color x:Key="ButtonTextHover">#000000</Color>
+    <Color x:Key="ButtonBackgroundPressed">#333333</Color>
+    <Color x:Key="ButtonTextPressed">#FFFFFF</Color>
+    <Color x:Key="ButtonBorder">#E5E5E5</Color>
+
+    <Color x:Key="SliderMin">#666666</Color>
+    <Color x:Key="SliderMax">#AAAAAA</Color>
 
     <!--<Color x:Key="GridBackground">Transparent</Color>-->
     <Color x:Key="Transparent">Transparent</Color>

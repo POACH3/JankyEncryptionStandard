@@ -8,7 +8,6 @@ namespace GUI
         public App()
         {
             InitializeComponent();
-            //SetTheme();
 
             MainPage = new AppShell();
 
@@ -28,7 +27,7 @@ namespace GUI
             if (window != null)
             {
                 window.Title = "JANKY ENCRYPTION STANDARD";
-                window.Height = 550;
+                window.Height = 650;
                 window.Width = 450;
             }
 
@@ -41,6 +40,5 @@ namespace GUI
             return window;
         }
 
-        //public void SetTheme() { }
     }
 }

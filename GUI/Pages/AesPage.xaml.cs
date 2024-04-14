@@ -9,9 +9,11 @@ public partial class AesPage : ContentPage
 
     AES _aes;
     int _numBits;
+
     public AesPage()
 	{
 		InitializeComponent();
+        ApplyPreferences();
     }
 
     private void ApplyPreferences()
@@ -22,10 +24,27 @@ public partial class AesPage : ContentPage
         //}
     }
 
+    public async void GoToHelpPage(object sender, EventArgs e)
+    {
+        var helpPage = new HelpPage();
+        await Navigation.PushAsync(helpPage, true);
+    }
+
+    public async void GoToEncryptionInfoPage(object sender, EventArgs e)
+    {
+        var encryptionInfoPage = new EncryptionInfoPage();
+        await Navigation.PushAsync(encryptionInfoPage, true);
+    }
+
+    public async void GoToAboutJesPage(object sender, EventArgs e)
+    {
+        var aboutJesPage = new AboutJesPage();
+        await Navigation.PushAsync(aboutJesPage, true);
+    }
 
     private void OnClickedGenerateNewKey(object sender, EventArgs e)
     {
-        _numBits = int.Parse(picker.Items[picker.SelectedIndex]);
+        _numBits = int.Parse(keyTypePicker.Items[keyTypePicker.SelectedIndex]);
 
         _aes = new AES(_numBits);
 
@@ -69,12 +88,31 @@ public partial class AesPage : ContentPage
         }
     }
 
+    public async void OnClickedCopyPlaintextBtn(object sender, EventArgs e)
+    {
+        await Clipboard.SetTextAsync(plaintextEditor.Text);
+    }
+
+    public async void OnClickedCopyCiphertextBtn(object sender, EventArgs e)
+    {
+        await Clipboard.SetTextAsync(ciphertextEditor.Text);
+    }
+
+    private async void OnClickedPastePlaintextBtn(object sender, EventArgs e)
+    {
+        plaintextEditor.Text = await Clipboard.GetTextAsync();
+    }
+
+    private async void OnClickedPasteCiphertextBtn(object sender, EventArgs e)
+    {
+        ciphertextEditor.Text = await Clipboard.GetTextAsync();
+    }
 
     private void OnClickedEncryptBtn(object sender, EventArgs e)
     {
         try
         {
-            cipherTextEditor.Text = _aes.Encrypt(plainTextEditor.Text);
+            ciphertextEditor.Text = _aes.Encrypt(plaintextEditor.Text);
         }
         catch (Exception ex)
         {
@@ -82,51 +120,19 @@ public partial class AesPage : ContentPage
         }
     }
 
-    private void OnClickedDecryptBtn(object sender, EventArgs e)
+    private async void OnClickedDecryptBtn(object sender, EventArgs e)
     {
         try
         {
-            plainTextEditor.Text = _aes.Decrypt(cipherTextEditor.Text);
+            plaintextEditor.Text = _aes.Decrypt(ciphertextEditor.Text);
         }
         catch (Exception ex)
         {
-            throw;
+            await DisplayAlert("ERROR", ex.Message, "OKAY");
         }
     }
 
 
-
-
-    /// <summary>
-    ///     Event handler that changes the button color to 
-    ///     show it is being clicked.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    public void OnPressed(object sender, EventArgs e)
-    {
-        if (sender is Button button)
-        {
-            button.BackgroundColor = Color.FromRgb(225, 25, 25);
-        }
-    }
-
-
-    /// <summary>
-    ///     Event handler that changes the button color back
-    ///     to the original color after having been clicked on.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    public void OnReleased(object sender, EventArgs e)
-    {
-        if (sender is Button button)
-        {
-            //button.BackgroundColor = Color.FromRgb(100, 100, 100);
-            button.BackgroundColor = default;
-            //button.BackgroundColor = null;
-        }
-    }
 
 
     public async void OnClickedCopyUseKeyBtn(object sender, EventArgs e)
@@ -139,26 +145,11 @@ public partial class AesPage : ContentPage
 
     }
 
-    public async void OnClickedCopyPlainTextBtn(object sender, EventArgs e)
-    {
-        await Clipboard.SetTextAsync(plainTextEditor.Text);
-    }
-
-    public async void OnClickedCopyCipherTextBtn(object sender, EventArgs e)
-    {
-        await Clipboard.SetTextAsync(cipherTextEditor.Text);
-    }
-
-    private async void OnClickedPaste(object sender, EventArgs e)
-    {
-        plainTextEditor.Text = await Clipboard.GetTextAsync();
-    }
-
 
     private void OnClickedSystemMode(object sender, EventArgs e)
     {
         //Application.Current.UserAppTheme = AppTheme.Unspecified;
-        ThemeManager.SetTheme(nameof(GUI.Resources.Themes.Default));
+        ThemeManager.SetTheme(nameof(GUI.Resources.Themes.Dark));
     }
 
     private void OnClickedLightMode(object sender, EventArgs e)
@@ -170,7 +161,8 @@ public partial class AesPage : ContentPage
     private void OnClickedDarkMode(object sender, EventArgs e)
     {
         //Application.Current.UserAppTheme = AppTheme.Dark;
-        ThemeManager.SetTheme(nameof(GUI.Resources.Themes.Dark));
+        //ThemeManager.SetTheme(nameof(GUI.Resources.Themes.Dark));
+        ThemeManager.SetTheme("Dark");
     }
 
     private void OnClickedNightMode(object sender, EventArgs e)

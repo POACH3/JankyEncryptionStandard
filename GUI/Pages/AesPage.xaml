@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GUI.AesPage"
+             BackgroundColor="{DynamicResource PageBackground}"
+             Title="">
+
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter
+                Property="BackgroundColor"
+                Value="{DynamicResource ButtonBackground}"/>
+            <Setter
+                Property="TextColor"
+                Value="{DynamicResource ButtonText}"/>
+            <Setter
+                Property="BorderColor"
+                Value="{DynamicResource ButtonBorder}"/>
+            <Setter
+                Property="BorderWidth"
+                Value="1"/>
+            <Setter
+                Property="CornerRadius"
+                Value="1"/>
+            <Setter
+                Property="HeightRequest"
+                Value="30"/>
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="Scale" Value="1" />
+                            </VisualState.Setters>
+                        </VisualState>
+
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="Scale" Value="0.95" />
+                                <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundPressed}" />
+                                <Setter Property="TextColor" Value="{DynamicResource ButtonTextPressed}" />
+                            </VisualState.Setters>
+                        </VisualState>
+
+                        <VisualState x:Name="PointerOver">
+                            <VisualState.Setters>
+                                <!--<Setter Property="Scale" Value="1.1" />-->
+                                <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundHover}" />
+                                <Setter Property="TextColor" Value="{DynamicResource ButtonTextHover}" />
+                            </VisualState.Setters>
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Border">
+            <Setter
+                Property="Stroke"
+                Value="{DynamicResource ButtonText}"/>
+            <Setter
+                Property="StrokeThickness"
+                Value=".8"/>
+        </Style>
+
+        <Style TargetType="ContentPage">
+            <Setter
+                Property="BackgroundColor"
+                Value="{DynamicResource PageBackground}"/>
+        </Style>
+
+        <Style TargetType="Editor">
+            <Setter
+                Property="BackgroundColor"
+                Value="{DynamicResource EditorBackground}"/>
+            <Setter
+                Property="TextColor"
+                Value="{DynamicResource ButtonText}"/>
+        </Style>
+
+        <Style TargetType="Entry">
+            <Setter
+                Property="BackgroundColor"
+                Value="{DynamicResource EditorBackground}"/>
+            <Setter
+                Property="TextColor"
+                Value="{DynamicResource PrimaryText}"/>
+            <Setter
+                Property="HeightRequest"
+                Value="32"/>
+            <Setter
+                Property="MinimumHeightRequest"
+                Value="30"/>
+        </Style>
+
+        <Style TargetType="Grid">
+            <Setter
+                Property="BackgroundColor"
+                Value="{DynamicResource PageBackground}"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter
+                Property="BackgroundColor"
+                Value="{DynamicResource Transparent}"/>
+            <Setter
+                Property="TextColor"
+                Value="{DynamicResource PrimaryText}"/>
+            <Setter
+                Property="FontSize"
+                Value="14"/>
+        </Style>
+
+        <Style TargetType="Picker">
+            <Setter
+                Property="SelectedIndex"
+                Value="2"/>
+            <Setter
+                Property="BackgroundColor"
+                Value="{DynamicResource EditorBackground}"/>
+            <Setter
+                Property="TextColor"
+                Value="{DynamicResource ButtonText}"/>
+        </Style>
+
+        <Style TargetType="Shell">
+            <Setter
+                Property="BackgroundColor"
+                Value="{DynamicResource Transparent}"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <ContentPage.MenuBarItems>
+        <!--<MenuBarItem Text="Export">
+        </MenuBarItem>-->
+        <MenuBarItem Text="Settings">
+            <MenuFlyoutItem x:Name="keyVisibility" Text="Show Key" Clicked="OnClickedShowHideKey"></MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutSubItem Text="Themes">
+                <MenuFlyoutItem Text="System Mode" Clicked="OnClickedSystemMode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Light Mode" Clicked="OnClickedLightMode"></MenuFlyoutItem>
+                <MenuFlyoutItem Text="Dark Mode" Clicked="OnClickedDarkMode"></MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Night Mode" Clicked="OnClickedNightMode"></MenuFlyoutItem>
+            </MenuFlyoutSubItem>
+        </MenuBarItem>
+        <MenuBarItem Text="Info">
+            <MenuFlyoutItem Text="Help" Clicked="GoToHelpPage"></MenuFlyoutItem>
+            <MenuFlyoutItem Text="Encryption Information" Clicked="GoToEncryptionInfoPage"></MenuFlyoutItem>
+            <MenuFlyoutItem Text="About JES" Clicked="GoToAboutJesPage"></MenuFlyoutItem>
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
+
+    <Shell.TitleView>
+        <Label
+            Text="AES"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"
+            FontAttributes="Bold"
+            FontSize="25"/>
+    </Shell.TitleView>
+
+    <Grid x:Name="mainContainer" RowDefinitions="40,30,1*,80,30,1*" ColumnDefinitions="1*" RowSpacing="2" Padding="5">
+
+        <VerticalStackLayout x:Name="keyInfoContainer" Grid.Row="0" Grid.Column="0" Spacing="10" VerticalOptions="Start">
+            <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                <Label
+                    x:Name="keyInformationLabel"
+                    Text="ENCRYPTION KEY"
+                    FontAttributes="Bold"
+                    FontSize="20"/>
+                <Button
+                    x:Name="showHideKeyInfoBtn"
+                    Text="Show"
+                    WidthRequest="56"
+                    Padding="0"
+                    ToolTipProperties.Text="hide or show the key information"
+                    Clicked="OnClickedShowHideKeyInfoBtn"/>
+            </FlexLayout>
+
+            <HorizontalStackLayout x:Name="keyInfo1" IsVisible="false" Spacing="5">
+                <Label
+                    x:Name="keyLabel"
+                    Text="KEY:"
+                    VerticalOptions="Center"
+                    FontSize="16"/>
+                <Border WidthRequest="300" VerticalOptions="Center">
+                    <Entry
+                        x:Name="keyEntry"
+                        Text=""
+                        FontSize="16"
+                        HeightRequest="34"
+                        VerticalTextAlignment="Center"
+                        VerticalOptions="Center"
+                        IsPassword="True"/>
+                </Border>
+                <Button
+                    x:Name="CopyUseKeyBtn"
+                    Text="Copy"
+                    ToolTipProperties.Text="copy the encryption key."
+                    Clicked="OnClickedCopyUseKeyBtn"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout x:Name="keyInfo2" IsVisible="false" Spacing="5">
+                <Border HeightRequest="32">
+                    <Picker x:Name="keyTypePicker" SelectedItem="256" WidthRequest="75">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:Int32}">
+                                <x:Int32>128</x:Int32>
+                                <x:Int32>192</x:Int32>
+                                <x:Int32>256</x:Int32>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </Border>
+                <Button
+                    x:Name="generateNewKeyBtn"
+                    Text="Generate New Key"
+                    Clicked="OnClickedGenerateNewKey"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+        <FlexLayout Direction="Row" JustifyContent="SpaceBetween" Grid.Row="1" Grid.Column="0">
+            <Label
+                x:Name="plaintextLabel"
+                Text="PLAINTEXT"
+                FontSize="20"
+                FontAttributes="Bold"/>
+
+            <HorizontalStackLayout Spacing="3">
+                <Button
+                    x:Name="pastePlaintextBtn"
+                    Text="Paste"
+                    ToolTipProperties.Text="paste to plaintext."
+                    Clicked="OnClickedPastePlaintextBtn"/>
+                <Button
+                    x:Name="copyPlaintextBtn"
+                    Text="Copy"
+                    ToolTipProperties.Text="copy the plaintext."
+                    Clicked="OnClickedCopyPlaintextBtn"/>
+            </HorizontalStackLayout>
+        </FlexLayout>
+
+        <Border Grid.Row="2" Grid.Column="0">
+            <Editor
+                x:Name="plaintextEditor"
+                Text=""
+                VerticalTextAlignment="Start"
+                TextTransform="None"
+                VerticalOptions="Fill"/>
+        </Border>
+
+        <HorizontalStackLayout Spacing="10" Grid.Row="3" Grid.Column="0" HorizontalOptions="Center">
+            <Button
+                x:Name="encryptBtn"
+                Text="ENCRYPT"
+                ToolTipProperties.Text="Encrypt the plaintext."
+                HeightRequest="35"
+                FontSize="16"
+                Clicked="OnClickedEncryptBtn"/>
+            <Button
+                x:Name="decryptBtn"
+                ToolTipProperties.Text="Decrypt the ciphertext."
+                Text="DECRYPT"
+                HeightRequest="35"
+                FontSize="16"
+                Clicked="OnClickedDecryptBtn"/>
+        </HorizontalStackLayout>
+
+        <StackLayout VerticalOptions="Fill" Grid.Row="4" Grid.Column="0">
+            <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                <Label
+                    x:Name="ciphertextLabel"
+                    Text="CIPHERTEXT"
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Start"/>
+                
+                <HorizontalStackLayout Spacing="3">
+                    <Button
+                         x:Name="pasteCiphertextBtn"
+                         Text="Paste"
+                         ToolTipProperties.Text="paste to ciphertext."
+                         Clicked="OnClickedPasteCiphertextBtn"/>
+                    <Button
+                         x:Name="copyCiphertextBtn"
+                         Text="Copy"
+                         ToolTipProperties.Text="copy the ciphertext."
+                         Clicked="OnClickedCopyCiphertextBtn"/>
+                </HorizontalStackLayout>
+            </FlexLayout>
+        </StackLayout>
+
+        <Border Grid.Row="5" Grid.Column="0">
+            <Editor
+                x:Name="ciphertextEditor"
+                Text=""
+                TextTransform="None"
+                VerticalTextAlignment="Start"
+                VerticalOptions="Fill"/>
+        </Border>
+
+    </Grid>
+    
+</ContentPage>
