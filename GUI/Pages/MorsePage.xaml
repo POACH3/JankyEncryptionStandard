@@ -104,6 +104,54 @@
                 Value="{DynamicResource PageBackground}"/>
         </Style>
 
+        <Style TargetType="ImageButton">
+            <Setter
+        Property="BackgroundColor"
+        Value="{DynamicResource ButtonBackground}"/>
+            <Setter
+        Property="CornerRadius"
+        Value="1"/>
+            <Setter
+        Property="WidthRequest"
+        Value="30"/>
+            <Setter
+        Property="HeightRequest"
+        Value="30"/>
+            <!--<Setter
+        Property="Aspect"
+        Value="AspectFit"/>-->
+            <Setter
+        Property="Padding"
+        Value="5"/>
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="Scale" Value="1" />
+                            </VisualState.Setters>
+                        </VisualState>
+
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="Scale" Value="0.95" />
+                                <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundPressed}" />
+                            </VisualState.Setters>
+                        </VisualState>
+
+                        <VisualState x:Name="PointerOver">
+                            <VisualState.Setters>
+                                <!--<Setter Property="Scale" Value="1.1" />-->
+                                <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundHover}" />
+                            </VisualState.Setters>
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+
         <Style TargetType="Label">
             <Setter
                 Property="BackgroundColor"
@@ -255,15 +303,13 @@
                 FontAttributes="Bold"/>
             
             <HorizontalStackLayout Spacing="3">
-                <Button
-                    x:Name="pastePlaintextBtn"
-                    Text="Paste"
-                    ToolTipProperties.Text="paste to plaintext."
+                <ImageButton
+                    Source="paste.png"
+                    ToolTipProperties.Text="paste to plaintext"
                     Clicked="OnClickedPastePlaintextBtn"/>
-                <Button
-                    x:Name="copyPlaintextBtn"
-                    Text="Copy"
-                    ToolTipProperties.Text="copy the plaintext."
+                <ImageButton
+                    Source="copy.png"
+                    ToolTipProperties.Text="copy plaintext"
                     Clicked="OnClickedCopyPlaintextBtn"/>
             </HorizontalStackLayout>
         </FlexLayout>
@@ -304,22 +350,24 @@
                     HorizontalOptions="Start"/>
 
                 <HorizontalStackLayout Spacing="3">
-                    <Button
+                    <!--<Button
                         x:Name="playMorseBtn"
                         Text="Play"
                         ToolTipProperties.Text="play the morse code."
                         HorizontalOptions="End"
+                        Clicked="OnClickedPlayMorseBtn"/>-->
+                    <ImageButton
+                        Source="play.png"
+                        ToolTipProperties.Text="play the morse code"
                         Clicked="OnClickedPlayMorseBtn"/>
-                    <Button
-                        x:Name="pasteCiphertextBtn"
-                        Text="Paste"
-                        ToolTipProperties.Text="paste to ciphertext."
+                    <ImageButton
+                        Source="paste.png"
+                        ToolTipProperties.Text="paste to ciphertext"
                         Clicked="OnClickedPasteCiphertextBtn"/>
-                    <Button
-                        x:Name="copyCiphertextBtn"
-                        Text="Copy"
-                        ToolTipProperties.Text="copy the ciphertext."
-                        HorizontalOptions="End"/>
+                    <ImageButton
+                        Source="copy.png"
+                        ToolTipProperties.Text="copy ciphertext"
+                        Clicked="OnClickedCopyCiphertextBtn"/>
                 </HorizontalStackLayout>
             </FlexLayout>
         </StackLayout>
